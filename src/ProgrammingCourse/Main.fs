@@ -28,19 +28,19 @@ module Main =
         if results.Contains First_task then
             printf "Введите число: "
             let x = Console.ReadLine() |> float
-            let result = x*x*x*x+x*x*x+x*x+x+1.0
+            let result = ProgrammingCourse.hw2.first_task x
             printf "Результат: "
-            printfn "%A" result        
+            printf "%A" result
         elif results.Contains Second_task then
             printf "Введите число: "
             let y = Console.ReadLine() |> float
-            let q = y*y                             //x^2
-            let r = q + y                           //x^2+x
-            let result = q*r+r+1.0                  //x^2(x^2+x)+(x^2+x)+1=x^4+x^3+x^2+x+1
-            printf "Результат: "                    // 2 умножения
-            printfn "%A" result                     // и 3 сложения
+            let result = ProgrammingCourse.hw2.first_task y
+            printf "Результат: "
+            printf "%A" result
         elif results.Contains Third_task then
-            printfn "Nothing"
+            printf "Введите число элементов массива: "
+            let number_of_elements = Console.ReadLine() |> int
+            ProgrammingCourse.hw2.third_task number_of_elements
         elif results.Contains Forth_task then
             printfn "Nothing"
         elif results.Contains Fifth_task then
