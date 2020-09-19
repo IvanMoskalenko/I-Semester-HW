@@ -40,9 +40,20 @@ module Main =
         elif results.Contains Third_task then
             printf "Введите число элементов массива: "
             let number_of_elements = Console.ReadLine() |> int
-            ProgrammingCourse.hw2.third_task number_of_elements
+            let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
+            printf "Введите число, больше которого элементы массива не должны быть: "
+            let supremum = Console.ReadLine() |> int
+            ProgrammingCourse.hw2.third_task created_array number_of_elements supremum
         elif results.Contains Forth_task then
-            printfn "Nothing"
+            printf "Введите число элементов массива: "
+            let number_of_elements = Console.ReadLine() |> int
+            let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
+            printf "Введите левую границу диапазона: "
+            let left_limit =  Console.ReadLine() |> int
+            printf "Введите правую границу диапазона "
+            let right_limit =  Console.ReadLine() |> int
+            let limits_array = [|left_limit; right_limit|]
+            ProgrammingCourse.hw2.forth_task created_array limits_array number_of_elements 
         elif results.Contains Fifth_task then
             printfn "Nothing"
         elif results.Contains Sixth_task then
