@@ -55,9 +55,19 @@ module Main =
             let limits_array = [|left_limit; right_limit|]
             ProgrammingCourse.hw2.forth_task created_array limits_array number_of_elements 
         elif results.Contains Fifth_task then
-            printfn "Nothing"
+            printf "Введите два элемента массива: "
+            let array_2elem: int array = Array.zeroCreate 2
+            for i = 0 to 1 do 
+                array_2elem.[i] <- Console.ReadLine() |> int
+            ProgrammingCourse.hw2.fifth_task array_2elem
         elif results.Contains Sixth_task then
-            printfn "Nothing"
+            printf "Введите число элементов массива: "
+            let number_of_elements = Console.ReadLine() |> int
+            let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
+            printf "Введите индексы элементов массива, которые необходимо поменять местами: "
+            let i =  Console.ReadLine() |> int
+            let j =  Console.ReadLine() |> int
+            ProgrammingCourse.hw2.sixth_task created_array number_of_elements i j
         else
             parser.PrintUsage() |> printfn "%s"
         0
