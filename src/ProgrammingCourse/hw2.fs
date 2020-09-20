@@ -16,33 +16,40 @@ module hw2 =
         printfn "%A" created_array
         created_array
     let third_task (created_array: int array) number_of_elements supremum =        
-        printf "Индексы элементов массива, не больших, чем заданное число:"
+        printf "Индексы элементов массива, не больших, чем заданное число: "
+        let mutable j = 0
         for i = 0 to number_of_elements-1 do
             if created_array.[i] <= supremum then
-                printf " "
-                printf "%A" i
+                j <- j+1
+        let third_task_array = Array.zeroCreate j
+        j <- 0 
+        for i = 0 to number_of_elements-1 do
+            if created_array.[i] <= supremum then
+                third_task_array.[j] <- i
+                j <- j+1
+        third_task_array    
     let forth_task (created_array: int array) (limits_array: int array) number_of_elements =
-        printf "Индексы элементов массива, лежащие вне диапазона: "
+        let mutable j = 0
         for i = 0 to number_of_elements-1 do
             if (created_array.[i] < limits_array.[0]) || (created_array.[i] > limits_array.[1]) then
-                printf " "
-                printf "%A" i
+                j <- j+1
+        let forth_task_array = Array.zeroCreate j
+        j <- 0 
+        for i = 0 to number_of_elements-1 do
+            if (created_array.[i] < limits_array.[0]) || (created_array.[i] > limits_array.[1]) then
+                forth_task_array.[j] <- i
+                j <- j+1
+        forth_task_array
     let fifth_task (created_array: int array) =
         created_array.[0] <- created_array.[0] + created_array.[1]
         created_array.[1] <- created_array.[0] - created_array.[1]
         created_array.[0] <- created_array.[0] - created_array.[1]
-        printf "Изменённый массив: "
-        for i = 0 to 1 do
-            printf " "
-            printf "%A " created_array.[i]
-    let sixth_task (created_array: int array) number_of_elements i j =
+        created_array
+    let sixth_task (created_array: int array) i j =
         created_array.[i] <- created_array.[i] + created_array.[j]
         created_array.[j] <- created_array.[i] - created_array.[j]
         created_array.[i] <- created_array.[i] - created_array.[j]
-        printf "Изменённый массив: "
-        for k = 0 to number_of_elements-1 do
-            printf " "
-            printf "%A " created_array.[k]
+        created_array
 
         
                 

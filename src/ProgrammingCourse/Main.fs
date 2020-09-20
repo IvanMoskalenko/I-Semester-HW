@@ -43,21 +43,26 @@ module Main =
             let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
             printf "Введите число, больше которого элементы массива не должны быть: "
             let supremum = Console.ReadLine() |> int
-            ProgrammingCourse.hw2.third_task created_array number_of_elements supremum
+            let third_task_array = ProgrammingCourse.hw2.third_task created_array number_of_elements supremum
+            printfn "%A" third_task_array
         elif results.Contains Forth_task then
             printf "Введите число элементов массива: "
             let number_of_elements = Console.ReadLine() |> int
             let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
             printf "Введите левую границу диапазона: "
             let left_limit =  Console.ReadLine() |> int
-            printf "Введите правую границу диапазона "
+            printf "Введите правую границу диапазона: "
             let right_limit =  Console.ReadLine() |> int
             let limits_array = [|left_limit; right_limit|]
-            ProgrammingCourse.hw2.forth_task created_array limits_array number_of_elements 
+            let forth_task_array = ProgrammingCourse.hw2.forth_task created_array limits_array number_of_elements
+            printf "Индексы элементов массива, лежащие вне диапазона: "
+            printfn "%A" forth_task_array
         elif results.Contains Fifth_task then
             let number_of_elements = 2
             let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
-            ProgrammingCourse.hw2.fifth_task created_array
+            let fifth_task_array = ProgrammingCourse.hw2.fifth_task created_array
+            printf "Изменённый массив: "
+            printfn "%A" fifth_task_array
         elif results.Contains Sixth_task then
             printf "Введите число элементов массива: "
             let number_of_elements = Console.ReadLine() |> int
@@ -65,7 +70,9 @@ module Main =
             printf "Введите индексы элементов массива, которые необходимо поменять местами: "
             let i =  Console.ReadLine() |> int
             let j =  Console.ReadLine() |> int
-            ProgrammingCourse.hw2.sixth_task created_array number_of_elements i j
+            let sixth_task_array = ProgrammingCourse.hw2.sixth_task created_array i j
+            printf "Изменённый массив: "
+            printfn "%A" sixth_task_array
         else
             parser.PrintUsage() |> printfn "%s"
         0
