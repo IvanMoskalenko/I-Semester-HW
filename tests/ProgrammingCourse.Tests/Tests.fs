@@ -26,7 +26,7 @@ let tests =
                 let subject = ProgrammingCourse.hw2.forth_task [| -4; -3; 3; 4 |] 2 5 4
                 Expect.equal subject [| 0; 1 |] "result must be equal [| 0; 1 |]"
             testCase "В промежутке отрицательных чисел никак не могут встретиться положительные" <| fun _ ->
-                let subject = ProgrammingCourse.hw2.forth_task [| -4; -3; 3; 4 |] 5 2 4
+                let subject = ProgrammingCourse.hw2.forth_task [| -4; -3; 3; 4 |] -5 -2 4
                 Expect.equal subject [| 2; 3 |] "result must be equal [| 2; 3 |]"
             testCase "Иногда могут генерироваться два очень больших числа, для складывании которых необходимо использовать int64, а не int32 (пятая задача)" <| fun _ ->
                 let subject = ProgrammingCourse.hw2.fifth_task [| 2147483645; 2147483644 |]
