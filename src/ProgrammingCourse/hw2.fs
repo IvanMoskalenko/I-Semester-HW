@@ -28,15 +28,15 @@ module hw2 =
                 third_task_array.[j] <- i
                 j <- j+1
         third_task_array    
-    let forth_task (created_array: int array) (limits_array: int array) number_of_elements =
+    let forth_task (created_array: int array) left_limit right_limit number_of_elements =
         let mutable j = 0
         for i = 0 to number_of_elements-1 do
-            if (created_array.[i] < limits_array.[0]) || (created_array.[i] > limits_array.[1]) then
+            if (created_array.[i] < left_limit) || (created_array.[i] > right_limit) then
                 j <- j+1
         let forth_task_array = Array.zeroCreate j
         j <- 0 
         for i = 0 to number_of_elements-1 do
-            if (created_array.[i] < limits_array.[0]) || (created_array.[i] > limits_array.[1]) then
+            if (created_array.[i] < left_limit) || (created_array.[i] > right_limit) then
                 forth_task_array.[j] <- i
                 j <- j+1
         forth_task_array

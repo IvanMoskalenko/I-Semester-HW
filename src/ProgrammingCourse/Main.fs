@@ -4,8 +4,8 @@ module Main =
     open Argu
     open System
     type CLIArguments =
-        | First_task
-        | Second_task
+        | First_task of x: float
+        | Second_task of x: float
         | Third_task
         | Forth_task
         | Fifth_task
@@ -13,8 +13,8 @@ module Main =
         interface IArgParserTemplate with
             member s.Usage =
                 match s with
-                | First_task -> "First task"
-                | Second_task -> "Second task"
+                | First_task _  -> "First task"
+                | Second_task _ -> "Second task"
                 | Third_task-> "Third task"
                 | Forth_task -> "Forth task"
                 | Fifth_task -> "Fifth task"
@@ -25,16 +25,14 @@ module Main =
         let parser = ArgumentParser.Create<CLIArguments>(programName = "ProgrammingCourse")
         try 
         let results = parser.Parse argv
-        if results.Contains First_task then
-            printf "Введите число: "
-            let x = Console.ReadLine() |> float
+        if  results.Contains First_task then
+            let x = results.GetResult(First_task)
             let result = ProgrammingCourse.hw2.first_task x
             printf "Результат: "
             printf "%A" result
         elif results.Contains Second_task then
-            printf "Введите число: "
-            let y = Console.ReadLine() |> float
-            let result = ProgrammingCourse.hw2.first_task y
+            let x = results.GetResult(Second_task)
+            let result = ProgrammingCourse.hw2.first_task x
             printf "Результат: "
             printf "%A" result
         elif results.Contains Third_task then
@@ -53,8 +51,7 @@ module Main =
             let left_limit =  Console.ReadLine() |> int
             printf "Введите правую границу диапазона: "
             let right_limit =  Console.ReadLine() |> int
-            let limits_array = [|left_limit; right_limit|]
-            let forth_task_array = ProgrammingCourse.hw2.forth_task created_array limits_array number_of_elements
+            let forth_task_array = ProgrammingCourse.hw2.forth_task created_array left_limit right_limit number_of_elements
             printf "Индексы элементов массива, лежащие вне диапазона: "
             printfn "%A" forth_task_array
         elif results.Contains Fifth_task then
@@ -70,9 +67,11 @@ module Main =
             printf "Введите индексы элементов массива, которые необходимо поменять местами: "
             let i =  Console.ReadLine() |> int
             let j =  Console.ReadLine() |> int
-            let sixth_task_array = ProgrammingCourse.hw2.sixth_task created_array i j
-            printf "Изменённый массив: "
-            printfn "%A" sixth_task_array
+            if (i > -1) && (i < number_of_elements) && (j > -1) && (j < number_of_elements) && (i <> j) then
+                let sixth_task_array = ProgrammingCourse.hw2.sixth_task created_array i j
+                printf "Изменённый массив: "
+                printfn "%A" sixth_task_array
+            else printf "Вы ввели неправильные индексы элементов"
         else
             parser.PrintUsage() |> printfn "%s"
         0
