@@ -55,11 +55,9 @@ module Main =
             let limits_array = [|left_limit; right_limit|]
             ProgrammingCourse.hw2.forth_task created_array limits_array number_of_elements 
         elif results.Contains Fifth_task then
-            printf "Введите два элемента массива: "
-            let array_2elem: int array = Array.zeroCreate 2
-            for i = 0 to 1 do 
-                array_2elem.[i] <- Console.ReadLine() |> int
-            ProgrammingCourse.hw2.fifth_task array_2elem
+            let number_of_elements = 2
+            let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
+            ProgrammingCourse.hw2.fifth_task created_array
         elif results.Contains Sixth_task then
             printf "Введите число элементов массива: "
             let number_of_elements = Console.ReadLine() |> int
