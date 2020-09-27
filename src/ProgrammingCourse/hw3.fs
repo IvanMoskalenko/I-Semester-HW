@@ -70,5 +70,15 @@ module hw3 =
             let resultMatrix = A * ((A ^^ pow) ^^ 2)
             let result = resultMatrix.values.[0,1]
             result
-            
+    let fib6 n =
+        let arrayOfresults : int array = Array.zeroCreate (n+1)
+        let mutable x = 0
+        let mutable y = 1
+        arrayOfresults.[1] <- 1
+        for i = 2 to n do
+            arrayOfresults.[i] <- x + y;
+            x <- y
+            y <- arrayOfresults.[i]
+        arrayOfresults
 
+        

@@ -4,33 +4,33 @@ module Main =
     open Argu
     open System
     type CLIArguments =
-        | First_task1 of x: float
-        | Second_task1 of x: float
-        | Third_task1
-        | Forth_task1
-        | Fifth_task1
-        | Sixth_task1
-        | First_task2 of x: int
-        | Second_task2 of x: int
-        | Third_task2 of x: int
-        | Forth_task2 of x: int
-        | Fifth_task2 of x: int
-        | Sixth_task2 of x: int
+        | First_task2 of x: float
+        | Second_task2 of x: float
+        | Third_task2
+        | Forth_task2
+        | Fifth_task2
+        | Sixth_task2
+        | First_task3 of x: int
+        | Second_task3 of x: int
+        | Third_task3 of x: int
+        | Forth_task3 of x: int
+        | Fifth_task3 of x: int
+        | Sixth_task3 of x: int
         interface IArgParserTemplate with
             member s.Usage =
                 match s with
-                | First_task1 _  -> "First task, second HW"
-                | Second_task1 _ -> "Second task, second HW"
-                | Third_task1 -> "Third task, second HW"
-                | Forth_task1 -> "Forth task, second HW"
-                | Fifth_task1 -> "Fifth task, second HW"
-                | Sixth_task1 -> "Sixth task, second HW"
-                | First_task2 _ -> "First task, third HW"
-                | Second_task2 _ -> "Second task, third HW"
-                | Third_task2 _ -> "Third task, third HW"
-                | Forth_task2 _ -> "Forth task, third HW"
-                | Fifth_task2 _ -> "Fifth task, third HW"
-                | Sixth_task2 _ -> "Sixth task, third HW"
+                | First_task2 _  -> "First task, second HW"
+                | Second_task2 _ -> "Second task, second HW"
+                | Third_task2 -> "Third task, second HW"
+                | Forth_task2 -> "Forth task, second HW"
+                | Fifth_task2 -> "Fifth task, second HW"
+                | Sixth_task2 -> "Sixth task, second HW"
+                | First_task3 _ -> "First task, third HW"
+                | Second_task3 _ -> "Second task, third HW"
+                | Third_task3 _ -> "Third task, third HW"
+                | Forth_task3 _ -> "Forth task, third HW"
+                | Fifth_task3 _ -> "Fifth task, third HW"
+                | Sixth_task3 _ -> "Sixth task, third HW"
 
        
     [<EntryPoint>]
@@ -38,17 +38,17 @@ module Main =
         let parser = ArgumentParser.Create<CLIArguments>(programName = "ProgrammingCourse")
         try 
         let results = parser.Parse argv
-        if  results.Contains First_task1 then
-            let x = results.GetResult (First_task1)
+        if  results.Contains First_task2 then
+            let x = results.GetResult (First_task2)
             let result = ProgrammingCourse.hw2.first_task x
             printf "Результат: "
             printf "%A" result
-        elif results.Contains Second_task1 then
-            let x = results.GetResult (Second_task1)
+        elif results.Contains Second_task2 then
+            let x = results.GetResult (Second_task2)
             let result = ProgrammingCourse.hw2.first_task x
             printf "Результат: "
             printf "%A" result
-        elif results.Contains Third_task1 then
+        elif results.Contains Third_task2 then
             printf "Введите число элементов массива: "
             let number_of_elements = Console.ReadLine () |> int
             let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
@@ -56,7 +56,7 @@ module Main =
             let supremum = Console.ReadLine () |> int
             let third_task_array = ProgrammingCourse.hw2.third_task created_array number_of_elements supremum
             printfn "%A" third_task_array
-        elif results.Contains Forth_task1 then
+        elif results.Contains Forth_task2 then
             printf "Введите число элементов массива: "
             let number_of_elements = Console.ReadLine () |> int
             let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
@@ -67,13 +67,13 @@ module Main =
             let forth_task_array = ProgrammingCourse.hw2.forth_task created_array left_limit right_limit number_of_elements
             printf "Индексы элементов массива, лежащие вне диапазона: "
             printfn "%A" forth_task_array
-        elif results.Contains Fifth_task1 then
+        elif results.Contains Fifth_task2 then
             let number_of_elements = 2
             let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
             let fifth_task_array = ProgrammingCourse.hw2.fifth_task created_array
             printf "Изменённый массив: "
             printfn "%A" fifth_task_array
-        elif results.Contains Sixth_task1 then
+        elif results.Contains Sixth_task2 then
             printf "Введите число элементов массива: "
             let number_of_elements = Console.ReadLine () |> int
             let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
@@ -85,8 +85,8 @@ module Main =
                 printf "Изменённый массив: "
                 printfn "%A" sixth_task_array
             else printf "Вы ввели неправильные индексы элементов"
-        elif results.Contains First_task2 then
-            let n = results.GetResult (First_task2)
+        elif results.Contains First_task3 then
+            let n = results.GetResult (First_task3)
             let result = ProgrammingCourse.hw3.fib1 n
             if result = -1
             then
@@ -94,8 +94,8 @@ module Main =
             else
                 printf "Результат: "
                 printfn "%A" result
-        elif results.Contains Second_task2 then
-            let n = results.GetResult (Second_task2)
+        elif results.Contains Second_task3 then
+            let n = results.GetResult (Second_task3)
             let result = ProgrammingCourse.hw3.fib2 n
             if result = -1
             then
@@ -103,8 +103,8 @@ module Main =
             else
                 printf "Результат: "
                 printfn "%A" result
-        elif results.Contains Third_task2 then
-            let n = results.GetResult (Third_task2)
+        elif results.Contains Third_task3 then
+            let n = results.GetResult (Third_task3)
             let result = ProgrammingCourse.hw3.fib3 n
             if result = -1
             then
@@ -112,8 +112,8 @@ module Main =
             else
                 printf "Результат: "
                 printfn "%A" result
-        elif results.Contains Forth_task2 then
-            let n = results.GetResult (Forth_task2)
+        elif results.Contains Forth_task3 then
+            let n = results.GetResult (Forth_task3)
             let result = ProgrammingCourse.hw3.fib4 n
             if result = -1
             then
@@ -121,8 +121,8 @@ module Main =
             else
                 printf "Результат: "
                 printfn "%A" result
-        elif results.Contains Fifth_task2 then
-            let n = results.GetResult (Fifth_task2)
+        elif results.Contains Fifth_task3 then
+            let n = results.GetResult (Fifth_task3)
             let result = ProgrammingCourse.hw3.fib5 n
             if result = -1
             then
@@ -130,9 +130,10 @@ module Main =
             else
                 printf "Результат: "
                 printfn "%A" result
-        elif results.Contains Sixth_task2 then
-            let n = results.GetResult (Sixth_task2)
-            printfn "Not done yet"
+        elif results.Contains Sixth_task3 then
+            let n = results.GetResult (Sixth_task3)
+            let result = ProgrammingCourse.hw3.fib6 n
+            printfn "%A" result
         else
             parser.PrintUsage() |> printfn "%s"
         0
