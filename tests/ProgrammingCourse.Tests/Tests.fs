@@ -161,8 +161,6 @@ let tests =
                 else
                     let k = n
                     k
-            testProperty "Fib1 = Fib2" 
-                <| fun (n: int) -> Expect.equal (ProgrammingCourse.hw3.fib1 (testPropertyHelper n)) (ProgrammingCourse.hw3.fib2 (testPropertyHelper n)) "Fib1 must be equal to Fib2"
             testProperty "Fib2 = Fib3" 
                 <| fun (n: int) -> Expect.equal (ProgrammingCourse.hw3.fib2 (testPropertyHelper n)) (ProgrammingCourse.hw3.fib3 (testPropertyHelper n)) "Fib2 must be equal to Fib3"
             testProperty "Fib3 = Fib4" 
