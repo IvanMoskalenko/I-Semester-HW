@@ -38,6 +38,8 @@ module Main =
         let parser = ArgumentParser.Create<CLIArguments>(programName = "ProgrammingCourse")
         try 
         let results = parser.Parse argv
+
+        //HW2
         if  results.Contains First_task2 then
             let x = results.GetResult (First_task2)
             let result = ProgrammingCourse.hw2.first_task x
@@ -85,55 +87,38 @@ module Main =
                 printf "Изменённый массив: "
                 printfn "%A" sixth_task_array
             else printf "Вы ввели неправильные индексы элементов"
+
+        //HW3
         elif results.Contains First_task3 then
             let n = results.GetResult (First_task3)
             let result = ProgrammingCourse.hw3.fib1 n
-            if result = -1
-            then
-                printf "It's unreal to find Fibonacci number if N below zero"
-            else
-                printf "Результат: "
-                printfn "%A" result
+            printf "Результат: "
+            printfn "%A" result
         elif results.Contains Second_task3 then
             let n = results.GetResult (Second_task3)
             let result = ProgrammingCourse.hw3.fib2 n
-            if result = -1
-            then
-                printf "It's unreal to find Fibonacci number if N below zero"
-            else
-                printf "Результат: "
-                printfn "%A" result
+            printf "Результат: "
+            printfn "%A" result
         elif results.Contains Third_task3 then
             let n = results.GetResult (Third_task3)
             let result = ProgrammingCourse.hw3.fib3 n
-            if result = -1
-            then
-                printf "It's unreal to find Fibonacci number if N below zero"
-            else
-                printf "Результат: "
-                printfn "%A" result
+            printf "Результат: "
+            printfn "%A" result
         elif results.Contains Forth_task3 then
             let n = results.GetResult (Forth_task3)
             let result = ProgrammingCourse.hw3.fib4 n
-            if result = -1
-            then
-                printf "It's unreal to find Fibonacci number if N below zero"
-            else
-                printf "Результат: "
-                printfn "%A" result
+            printf "Результат: "
+            printfn "%A" result
         elif results.Contains Fifth_task3 then
             let n = results.GetResult (Fifth_task3)
             let result = ProgrammingCourse.hw3.fib5 n
-            if result = -1
-            then
-                printf "It's unreal to find Fibonacci number if N below zero"
-            else
-                printf "Результат: "
-                printfn "%A" result
+            printf "Результат: "
+            printfn "%A" result
         elif results.Contains Sixth_task3 then
             let n = results.GetResult (Sixth_task3)
             let result = ProgrammingCourse.hw3.fib6 n
             printfn "%A" result
+
         else
             parser.PrintUsage() |> printfn "%s"
         0

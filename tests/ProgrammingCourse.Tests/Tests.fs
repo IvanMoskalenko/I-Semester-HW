@@ -152,4 +152,23 @@ let tests =
             testCase "0 - 10 Fibonacci numbers" <| fun _ ->
                 let subject = ProgrammingCourse.hw3.fib6 10
                 Expect.equal subject [| 0; 1; 1; 2; 3; 5; 8; 13; 21; 34; 55 |] "result must be equal 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55"
+
+            let testPropertyHelper n =
+                if n < 0
+                then
+                    let k = -n
+                    k
+                else
+                    let k = n
+                    k
+            testProperty "Fib1 = Fib2" 
+                <| fun (n: int) -> Expect.equal (ProgrammingCourse.hw3.fib1 (testPropertyHelper n)) (ProgrammingCourse.hw3.fib2 (testPropertyHelper n)) "Fib1 must be equal to Fib2"
+            testProperty "Fib2 = Fib3" 
+                <| fun (n: int) -> Expect.equal (ProgrammingCourse.hw3.fib2 (testPropertyHelper n)) (ProgrammingCourse.hw3.fib3 (testPropertyHelper n)) "Fib2 must be equal to Fib3"
+            testProperty "Fib3 = Fib4" 
+                <| fun (n: int) -> Expect.equal (ProgrammingCourse.hw3.fib3 (testPropertyHelper n)) (ProgrammingCourse.hw3.fib4 (testPropertyHelper n)) "Fib3 must be equal to Fib4"
+            testProperty "Fib4 = Fib5" 
+                <| fun (n: int) -> Expect.equal (ProgrammingCourse.hw3.fib4 (testPropertyHelper n)) (ProgrammingCourse.hw3.fib5 (testPropertyHelper n)) "Fib4 must be equal to Fib5"
         ]
+
+
