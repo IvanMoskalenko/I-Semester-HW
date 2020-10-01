@@ -42,50 +42,50 @@ module Main =
         //HW2
         if  results.Contains First_task2 then
             let x = results.GetResult (First_task2)
-            let result = ProgrammingCourse.hw2.first_task x
+            let result = ProgrammingCourse.hw2.firstTask x
             printf "Результат: "
             printf "%A" result
         elif results.Contains Second_task2 then
             let x = results.GetResult (Second_task2)
-            let result = ProgrammingCourse.hw2.first_task x
+            let result = ProgrammingCourse.hw2.firstTask x
             printf "Результат: "
             printf "%A" result
         elif results.Contains Third_task2 then
             printf "Введите число элементов массива: "
             let number_of_elements = Console.ReadLine () |> int
-            let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
+            let created_array: int array = ProgrammingCourse.hw2.createArray number_of_elements
             printf "Введите число, больше которого элементы массива не должны быть: "
             let supremum = Console.ReadLine () |> int
-            let third_task_array = ProgrammingCourse.hw2.third_task created_array number_of_elements supremum
+            let third_task_array = ProgrammingCourse.hw2.thirdTask created_array number_of_elements supremum
             printfn "%A" third_task_array
         elif results.Contains Forth_task2 then
             printf "Введите число элементов массива: "
             let number_of_elements = Console.ReadLine () |> int
-            let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
+            let created_array: int array = ProgrammingCourse.hw2.createArray number_of_elements
             printf "Введите левую границу диапазона: "
             let left_limit =  Console.ReadLine () |> int
             printf "Введите правую границу диапазона: "
             let right_limit =  Console.ReadLine () |> int
-            let forth_task_array = ProgrammingCourse.hw2.forth_task created_array left_limit right_limit number_of_elements
+            let forth_task_array = ProgrammingCourse.hw2.forthTask created_array left_limit right_limit number_of_elements
             printf "Индексы элементов массива, лежащие вне диапазона: "
             printfn "%A" forth_task_array
         elif results.Contains Fifth_task2 then
-            let number_of_elements = 2
-            let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
-            let fifth_task_array = ProgrammingCourse.hw2.fifth_task created_array
+            let numberOfElements = 2
+            let createdArray: int array = ProgrammingCourse.hw2.createArray numberOfElements
+            let fifthTaskArray = ProgrammingCourse.hw2.fifthTask createdArray
             printf "Изменённый массив: "
-            printfn "%A" fifth_task_array
+            printfn "%A" fifthTaskArray
         elif results.Contains Sixth_task2 then
             printf "Введите число элементов массива: "
-            let number_of_elements = Console.ReadLine () |> int
-            let created_array: int array = ProgrammingCourse.hw2.create_array number_of_elements
+            let numberOfElements = Console.ReadLine () |> int
+            let createdArray: int array = ProgrammingCourse.hw2.createArray numberOfElements
             printf "Введите индексы элементов массива, которые необходимо поменять местами: "
             let i =  Console.ReadLine () |> int
             let j =  Console.ReadLine () |> int
-            if (i > -1) && (i < number_of_elements) && (j > -1) && (j < number_of_elements) && (i <> j) then
-                let sixth_task_array = ProgrammingCourse.hw2.sixth_task created_array i j
+            if (i > -1) && (i < numberOfElements) && (j > -1) && (j < numberOfElements) && (i <> j) then
+                let sixthTaskArray = ProgrammingCourse.hw2.sixthTask createdArray i j
                 printf "Изменённый массив: "
-                printfn "%A" sixth_task_array
+                printfn "%A" sixthTaskArray
             else printf "Вы ввели неправильные индексы элементов"
 
         //HW3

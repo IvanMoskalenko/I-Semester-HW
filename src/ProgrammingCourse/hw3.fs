@@ -2,24 +2,18 @@ namespace ProgrammingCourse
 module hw3 =
 
     let rec fib1 n =
-        if n = 2 || n = 1
+        if n = 1 || n = 0
         then
-            1
-        elif n = 0
-        then
-            0
+            n
         elif n < 0
         then
             failwith "It's unreal to find Fibonacci number if N below zero"
         else
             fib1 (n - 1) + fib1 (n - 2)
     let fib2 n =
-        if n = 2 || n = 1
+        if n = 1 || n = 0
         then
-            1
-        elif n = 0
-        then
-            0
+            n
         elif n < 0
         then
             failwith "It's unreal to find Fibonacci number if N below zero"
@@ -74,13 +68,12 @@ module hw3 =
 
     let fib6 n =
         let arrayOfresults : int array = Array.zeroCreate (n+1)
-        let mutable x = 0
-        let mutable y = 1
-        arrayOfresults.[1] <- 1
-        for i = 2 to n do
-            arrayOfresults.[i] <- x + y;
-            x <- y
-            y <- arrayOfresults.[i]
+        if n > 0
+        then
+            arrayOfresults.[1] <- 1
+            for i = 2 to n do
+                arrayOfresults.[i] <- arrayOfresults.[i-1] + arrayOfresults.[i-2];
+        elif n < 0 then failwith "It's unreal to find Fibonacci numbers if N below zero"
         arrayOfresults
 
         
