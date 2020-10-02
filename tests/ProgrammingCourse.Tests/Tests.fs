@@ -154,12 +154,8 @@ let tests =
                 Expect.equal subject [| 0; 1; 1; 2; 3; 5; 8; 13; 21; 34; 55 |] "result must be equal 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55"
 
             let testPropertyHelper n =
-                if n < 0
-                then
-                    -n
-                else
-                    n
-        
+                if n < 0 then -n else n
+           
             testProperty "Fib2 = Fib3" 
                 <| fun (n: int) -> Expect.equal (ProgrammingCourse.hw3.fib2 (testPropertyHelper n)) (ProgrammingCourse.hw3.fib3 (testPropertyHelper n)) "Fib2 must be equal to Fib3"
             testProperty "Fib3 = Fib4" 

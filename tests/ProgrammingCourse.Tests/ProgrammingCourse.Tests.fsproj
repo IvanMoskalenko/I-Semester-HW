@@ -10,7 +10,7 @@
         <Compile Include="Main.fs" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Expecto.FsCheck" Version="9.0.2" />
+      <PackageReference Include="Expecto.FsCheck" Version="8.13.1" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="../../src/ProgrammingCourse/ProgrammingCourse.fsproj" />
