@@ -59,7 +59,6 @@ module hw3 =
 
     let matrixPower (matrix: int[,]) pow =
         if pow < 0 then failwith "It's unreal to find Matrix power below zero"
-        elif pow = 1 then matrix
         elif pow = 0
         then
             let rows = matrix.[0,*].Length
@@ -71,8 +70,8 @@ module hw3 =
             else
                 failwith "It's unreal to find Matrix in zero power if matrix isn't square"
         else
-            let mutable result = matrix
-            for i = 2 to pow do
+            let mutable result = createIdentityMatrix matrix.[0,*].Length
+            for i = 1 to pow do
                 result <- matrixMultiply result matrix
             result
 
