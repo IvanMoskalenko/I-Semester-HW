@@ -37,7 +37,7 @@ module hw3 =
         else
             failwith "It's unreal to find Fibonacci number if N below zero"
 
-    let matrix_multiply (matrix1: int[,]) (matrix2: int[,]) =
+    let matrixMultiply (matrix1: int[,]) (matrix2: int[,]) =
         let row1 = matrix1.[0,*].Length
         let col2 = matrix2.[*,0].Length
         let result = Array2D.zeroCreate row1 col2
@@ -50,42 +50,58 @@ module hw3 =
             result
         else failwith "Matrices isn't matched"
 
-    let matrix_power (matrix: int[,]) pow =
-        if pow < 1 then failwith "It's unreal to find Matrix power zero or below"
+    let createIdentityMatrix rows =
+        let matrix = Array2D.zeroCreate rows rows
+        for i = 0 to rows - 1 do
+            for k = 0 to rows - 1 do
+                if i = k then matrix.[i,k] <- 1 else matrix.[i,k] <- 0
+        matrix
+
+    let matrixPower (matrix: int[,]) pow =
+        if pow < 0 then failwith "It's unreal to find Matrix power below zero"
         elif pow = 1 then matrix
+        elif pow = 0
+        then
+            let rows = matrix.[0,*].Length
+            let cols = matrix.[*,0].Length
+            if rows = cols
+            then
+                let result = createIdentityMatrix rows
+                result
+            else
+                failwith "It's unreal to find Matrix in zero power if matrix isn't square"
         else
             let mutable result = matrix
             for i = 2 to pow do
-                result <- matrix_multiply result matrix
+                result <- matrixMultiply result matrix
             result
 
     let fib4 n =
-        if n = 0 then 0
-        elif n < 0
+        if n < 0
         then
             failwith "It's unreal to find Fibonacci number if N below zero"
         else
             let a = array2D [ [ 0; 1]; [1; 1] ]
-            let res = matrix_power a n
+            let res = matrixPower a n
             res.[0,1]
 
     let fib5 n =
         if n < 0 then failwith "It's unreal to find Fibonacci number if N below zero"
-        elif n = 0 || n = 1 then n
+        elif n = 1 then 1
         else
             let a = array2D [ [ 0; 1]; [1; 1] ]
             if n % 2 = 0
             then
                 let pow = n / 2
-                let resultMatrix = matrix_power (matrix_power a pow) 2
+                let resultMatrix = matrixPower (matrixPower a pow) 2
                 resultMatrix.[0,1]
             else
-                let pow = (n-1) / 2
-                let resultMatrix = matrix_multiply (matrix_power (matrix_power a pow) 2) (a)
+                let pow = (n - 1) / 2
+                let resultMatrix = matrixMultiply (matrixPower (matrixPower a pow) 2) (a)
                 resultMatrix.[0,1]
 
     let fib6 n =
-        let arrayOfresults : int array = Array.zeroCreate (n+1)
+        let arrayOfresults : int array = Array.zeroCreate (n + 1)
         if n > 0
         then
             arrayOfresults.[1] <- 1
