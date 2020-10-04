@@ -5,10 +5,9 @@ open Expecto
 open ProgrammingCourse
 
 [<Tests>]
-let tests =
-    testList "samples"
+let firsthomeworktests =
+    testList "First Homework"
         [
-            //second h/w
             testCase "0 в любой степени кроме 0 = 0, первая задача" <| fun _ ->
                 let subject = ProgrammingCourse.hw2.firstTask 0.0
                 Expect.equal subject 1.0 "result must be equal 1"
@@ -36,9 +35,13 @@ let tests =
             testCase "Иногда могут генерироваться два очень больших числа, для складывании которых необходимо использовать int64, а не int32 (шестая задача)" <| fun _ ->
                 let subject = ProgrammingCourse.hw2.sixthTask [| 1; 2; 2147483645; 2147483644; 5; 89 |] 2 3
                 Expect.equal subject [| 1; 2; 2147483644; 2147483645; 5; 89 |] "result must be equal [| 1; 2; 2147483644; 2147483645; 5; 89 |]"
+        ]
 
-
-            //third h/w
+//third h/w
+[<Tests>]
+let firsttasktests =
+    testList "First Task"
+        [
             testCase "First Fibonacci number, first task" <| fun _ ->
                 let subject = ProgrammingCourse.hw3.fib1 1
                 Expect.equal subject 1 "result must be equal 1"
@@ -57,7 +60,12 @@ let tests =
             testCase "Tenth Fibonacci number, first task" <| fun _ ->
                 let subject = ProgrammingCourse.hw3.fib1 10
                 Expect.equal subject 55 "result must be equal 55"
+        ]
 
+[<Tests>]
+let secondtasktests =
+    testList "Second Task"
+        [
             testCase "First Fibonacci number, second task" <| fun _ ->
                 let subject = ProgrammingCourse.hw3.fib2 1
                 Expect.equal subject 1 "result must be equal 1"
@@ -76,7 +84,12 @@ let tests =
             testCase "Tenth Fibonacci number, second task" <| fun _ ->
                 let subject = ProgrammingCourse.hw3.fib2 10
                 Expect.equal subject 55 "result must be equal 55"
+        ]
 
+[<Tests>]
+let thirdtasktests =
+    testList "Third Task"
+        [
             testCase "First Fibonacci number, third task" <| fun _ ->
                 let subject = ProgrammingCourse.hw3.fib3 1
                 Expect.equal subject 1 "result must be equal 1"
@@ -95,7 +108,12 @@ let tests =
             testCase "Tenth Fibonacci number, third task" <| fun _ ->
                 let subject = ProgrammingCourse.hw3.fib3 10
                 Expect.equal subject 55 "result must be equal 55"
+        ]
 
+[<Tests>]
+let fourthtasktests =
+    testList "Fourth Task"
+        [
             testCase "First Fibonacci number, forth task" <| fun _ ->
                 let subject = ProgrammingCourse.hw3.fib4 1
                 Expect.equal subject 1 "result must be equal 1"
@@ -114,7 +132,12 @@ let tests =
             testCase "Tenth Fibonacci number, forth task" <| fun _ ->
                 let subject = ProgrammingCourse.hw3.fib4 10
                 Expect.equal subject 55 "result must be equal 55"
+        ]
 
+[<Tests>]
+let fifthtasktests =
+    testList "Fifth Task"
+        [
             testCase "First Fibonacci number, fifth task" <| fun _ ->
                 let subject = ProgrammingCourse.hw3.fib5 1
                 Expect.equal subject 1 "result must be equal 1"
@@ -133,7 +156,12 @@ let tests =
             testCase "Tenth Fibonacci number, fifth task" <| fun _ ->
                 let subject = ProgrammingCourse.hw3.fib5 10
                 Expect.equal subject 55 "result must be equal 55"
+        ]
 
+[<Tests>]
+let sixthtasktests =
+    testList "Sixth Task"
+        [
             testCase "0 - 1 Fibonacci numbers" <| fun _ ->
                 let subject = ProgrammingCourse.hw3.fib6 1
                 Expect.equal subject [| 0; 1 |] "result must be equal 0, 1"
@@ -152,7 +180,12 @@ let tests =
             testCase "0 - 10 Fibonacci numbers" <| fun _ ->
                 let subject = ProgrammingCourse.hw3.fib6 10
                 Expect.equal subject [| 0; 1; 1; 2; 3; 5; 8; 13; 21; 34; 55 |] "result must be equal 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55"
+        ]
 
+[<Tests>]
+let propertytests =
+    testList "Property tests"
+        [
             let testPropertyHelper n =
                 if n < 0 then -n else n
            

@@ -75,6 +75,27 @@ module hw3 =
                 result <- matrixMultiply result matrix
             result
 
+    let rec smartMatrixPower (matrix: int[,]) pow =
+        if pow < 0 then failwith "It's unreal to find Matrix power below zero"
+        elif pow = 0
+        then
+            let rows = matrix.[0,*].Length
+            let cols = matrix.[*,0].Length
+            if rows = cols
+            then
+                let result = createIdentityMatrix rows
+                result
+            else
+                failwith "It's unreal to find Matrix in zero power if matrix isn't square"
+        elif pow = 1 then matrix
+        elif pow % 2 = 0
+        then
+            let resultMatrix = matrixPower (smartMatrixPower matrix (pow / 2)) 2
+            resultMatrix
+        else
+            let resultMatrix = matrixMultiply (matrixPower (smartMatrixPower matrix ((pow - 1) / 2)) 2) (matrix)
+            resultMatrix
+            
     let fib4 n =
         if n < 0
         then
@@ -86,18 +107,10 @@ module hw3 =
 
     let fib5 n =
         if n < 0 then failwith "It's unreal to find Fibonacci number if N below zero"
-        elif n = 1 then 1
         else
-            let a = array2D [ [ 0; 1]; [1; 1] ]
-            if n % 2 = 0
-            then
-                let pow = n / 2
-                let resultMatrix = matrixPower (matrixPower a pow) 2
-                resultMatrix.[0,1]
-            else
-                let pow = (n - 1) / 2
-                let resultMatrix = matrixMultiply (matrixPower (matrixPower a pow) 2) (a)
-                resultMatrix.[0,1]
+            let matrix = array2D [ [ 0; 1]; [1; 1] ]
+            let resultMatrix = smartMatrixPower (matrix: int[,]) n
+            resultMatrix.[0,1]
 
     let fib6 n =
         let arrayOfresults : int array = Array.zeroCreate (n + 1)
