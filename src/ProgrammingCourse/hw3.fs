@@ -65,8 +65,7 @@ module hw3 =
             let cols = matrix.[*,0].Length
             if rows = cols
             then
-                let result = createIdentityMatrix rows
-                result
+                createIdentityMatrix rows
             else
                 failwith "It's unreal to find Matrix in zero power if matrix isn't square"
         else
@@ -83,18 +82,15 @@ module hw3 =
             let cols = matrix.[*,0].Length
             if rows = cols
             then
-                let result = createIdentityMatrix rows
-                result
+                createIdentityMatrix rows
             else
                 failwith "It's unreal to find Matrix in zero power if matrix isn't square"
         elif pow = 1 then matrix
         elif pow % 2 = 0
         then
-            let resultMatrix = matrixPower (smartMatrixPower matrix (pow / 2)) 2
-            resultMatrix
+            matrixPower (smartMatrixPower matrix (pow / 2)) 2
         else
-            let resultMatrix = matrixMultiply (matrixPower (smartMatrixPower matrix ((pow - 1) / 2)) 2) (matrix)
-            resultMatrix
+            matrixMultiply (matrixPower (smartMatrixPower matrix ((pow - 1) / 2)) 2) matrix
             
     let fib4 n =
         if n < 0
@@ -118,7 +114,7 @@ module hw3 =
         then
             arrayOfresults.[1] <- 1
             for i = 2 to n do
-                arrayOfresults.[i] <- arrayOfresults.[i-1] + arrayOfresults.[i-2];
+                arrayOfresults.[i] <- arrayOfresults.[i-1] + arrayOfresults.[i-2]
         elif n < 0 then failwith "It's unreal to find Fibonacci numbers if N below zero"
         arrayOfresults
 

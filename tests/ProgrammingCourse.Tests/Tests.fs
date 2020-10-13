@@ -186,15 +186,12 @@ let sixthtasktests =
 let propertytests =
     testList "Property tests"
         [
-            let testPropertyHelper n =
-                if n < 0 then -n else n
-           
             testProperty "Fib2 = Fib3" 
-                <| fun (n: int) -> Expect.equal (ProgrammingCourse.hw3.fib2 (testPropertyHelper n)) (ProgrammingCourse.hw3.fib3 (testPropertyHelper n)) "Fib2 must be equal to Fib3"
+                <| fun (n: int) -> Expect.equal (ProgrammingCourse.hw3.fib2 (abs n)) (ProgrammingCourse.hw3.fib3 (abs n)) "Fib2 must be equal to Fib3"
             testProperty "Fib3 = Fib4" 
-                <| fun (n: int) -> Expect.equal (ProgrammingCourse.hw3.fib3 (testPropertyHelper n)) (ProgrammingCourse.hw3.fib4 (testPropertyHelper n)) "Fib3 must be equal to Fib4"
+                <| fun (n: int) -> Expect.equal (ProgrammingCourse.hw3.fib3 (abs n)) (ProgrammingCourse.hw3.fib4 (abs n)) "Fib3 must be equal to Fib4"
             testProperty "Fib4 = Fib5" 
-                <| fun (n: int) -> Expect.equal (ProgrammingCourse.hw3.fib4 (testPropertyHelper n)) (ProgrammingCourse.hw3.fib5 (testPropertyHelper n)) "Fib4 must be equal to Fib5"
+                <| fun (n: int) -> Expect.equal (ProgrammingCourse.hw3.fib4 (abs n)) (ProgrammingCourse.hw3.fib5 (abs n)) "Fib4 must be equal to Fib5"
         ]
 
 
