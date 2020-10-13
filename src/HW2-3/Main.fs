@@ -1,4 +1,4 @@
-namespace ProgrammingCourse
+namespace HW2_3
 
 module Main =
     open Argu
@@ -42,48 +42,48 @@ module Main =
         //HW2
         if  results.Contains First_task2 then
             let x = results.GetResult (First_task2)
-            let result = ProgrammingCourse.hw2.firstTask x
+            let result = hw2.firstTask x
             printf "Результат: "
             printf "%A" result
         elif results.Contains Second_task2 then
             let x = results.GetResult (Second_task2)
-            let result = ProgrammingCourse.hw2.firstTask x
+            let result = hw2.firstTask x
             printf "Результат: "
             printf "%A" result
         elif results.Contains Third_task2 then
             printf "Введите число элементов массива: "
             let number_of_elements = Console.ReadLine () |> int
-            let created_array: int array = ProgrammingCourse.hw2.createArray number_of_elements
+            let created_array: int array = hw2.createArray number_of_elements
             printf "Введите число, больше которого элементы массива не должны быть: "
             let supremum = Console.ReadLine () |> int
-            let third_task_array = ProgrammingCourse.hw2.thirdTask created_array number_of_elements supremum
+            let third_task_array = hw2.thirdTask created_array number_of_elements supremum
             printfn "%A" third_task_array
         elif results.Contains Forth_task2 then
             printf "Введите число элементов массива: "
             let number_of_elements = Console.ReadLine () |> int
-            let created_array: int array = ProgrammingCourse.hw2.createArray number_of_elements
+            let created_array: int array = hw2.createArray number_of_elements
             printf "Введите левую границу диапазона: "
             let left_limit =  Console.ReadLine () |> int
             printf "Введите правую границу диапазона: "
             let right_limit =  Console.ReadLine () |> int
-            let forth_task_array = ProgrammingCourse.hw2.forthTask created_array left_limit right_limit number_of_elements
+            let forth_task_array = hw2.forthTask created_array left_limit right_limit number_of_elements
             printf "Индексы элементов массива, лежащие вне диапазона: "
             printfn "%A" forth_task_array
         elif results.Contains Fifth_task2 then
             let numberOfElements = 2
-            let createdArray: int array = ProgrammingCourse.hw2.createArray numberOfElements
-            let fifthTaskArray = ProgrammingCourse.hw2.fifthTask createdArray
+            let createdArray: int array = hw2.createArray numberOfElements
+            let fifthTaskArray = hw2.fifthTask createdArray
             printf "Изменённый массив: "
             printfn "%A" fifthTaskArray
         elif results.Contains Sixth_task2 then
             printf "Введите число элементов массива: "
             let numberOfElements = Console.ReadLine () |> int
-            let createdArray: int array = ProgrammingCourse.hw2.createArray numberOfElements
+            let createdArray: int array = hw2.createArray numberOfElements
             printf "Введите индексы элементов массива, которые необходимо поменять местами: "
             let i =  Console.ReadLine () |> int
             let j =  Console.ReadLine () |> int
             if (i > -1) && (i < numberOfElements) && (j > -1) && (j < numberOfElements) && (i <> j) then
-                let sixthTaskArray = ProgrammingCourse.hw2.sixthTask createdArray i j
+                let sixthTaskArray = hw2.sixthTask createdArray i j
                 printf "Изменённый массив: "
                 printfn "%A" sixthTaskArray
             else printf "Вы ввели неправильные индексы элементов"
@@ -91,32 +91,32 @@ module Main =
         //HW3
         elif results.Contains First_task3 then
             let n = results.GetResult (First_task3)
-            let result = ProgrammingCourse.hw3.fib1 n
+            let result = hw3.fib1 n
             printf "Результат: "
             printfn "%A" result
         elif results.Contains Second_task3 then
             let n = results.GetResult (Second_task3)
-            let result = ProgrammingCourse.hw3.fib2 n
+            let result = hw3.fib2 n
             printf "Результат: "
             printfn "%A" result
         elif results.Contains Third_task3 then
             let n = results.GetResult (Third_task3)
-            let result = ProgrammingCourse.hw3.fib3 n
+            let result = hw3.fib3 n
             printf "Результат: "
             printfn "%A" result
         elif results.Contains Forth_task3 then
             let n = results.GetResult (Forth_task3)
-            let result = ProgrammingCourse.hw3.fib4 n
+            let result = hw3.fib4 n
             printf "Результат: "
             printfn "%A" result
         elif results.Contains Fifth_task3 then
             let n = results.GetResult (Fifth_task3)
-            let result = ProgrammingCourse.hw3.fib5 n
+            let result = hw3.fib5 n
             printf "Результат: "
             printfn "%A" result
         elif results.Contains Sixth_task3 then
             let n = results.GetResult (Sixth_task3)
-            let result = ProgrammingCourse.hw3.fib6 n
+            let result = hw3.fib6 n
             printfn "%A" result
 
         else
