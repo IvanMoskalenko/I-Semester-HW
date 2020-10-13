@@ -1,4 +1,4 @@
-namespace ProgrammingCourse
+namespace HW2_3
 module hw2 =
     open System
     let firstTask x = x * x * x * x + x * x * x + x * x + x + 1.0
