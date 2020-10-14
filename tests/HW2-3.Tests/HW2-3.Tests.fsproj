@@ -10,7 +10,10 @@
         <Compile Include="Main.fs" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="../../src/ProgrammingCourse/ProgrammingCourse.fsproj" />
+      <PackageReference Include="Expecto.FsCheck" Version="8.13.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\HW2-3\HW2-3.fsproj" />
     </ItemGroup>
     <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

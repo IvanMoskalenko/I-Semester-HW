@@ -2,8 +2,8 @@
 namespace System
 open System.Reflection
 
-[<assembly: AssemblyTitleAttribute("ProgrammingCourse.Tests")>]
-[<assembly: AssemblyProductAttribute("ProgrammingCourse")>]
+[<assembly: AssemblyTitleAttribute("HW2-3.Tests")>]
+[<assembly: AssemblyProductAttribute("HW2-3")>]
 [<assembly: AssemblyVersionAttribute("0.1.0")>]
 [<assembly: AssemblyMetadataAttribute("ReleaseDate","2017-03-17T00:00:00.0000000")>]
 [<assembly: AssemblyFileVersionAttribute("0.1.0")>]
@@ -13,8 +13,8 @@ open System.Reflection
 do ()
 
 module internal AssemblyVersionInformation =
-    let [<Literal>] AssemblyTitle = "ProgrammingCourse.Tests"
-    let [<Literal>] AssemblyProduct = "ProgrammingCourse"
+    let [<Literal>] AssemblyTitle = "HW2-3.Tests"
+    let [<Literal>] AssemblyProduct = "HW2-3"
     let [<Literal>] AssemblyVersion = "0.1.0"
     let [<Literal>] AssemblyMetadata_ReleaseDate = "2017-03-17T00:00:00.0000000"
     let [<Literal>] AssemblyFileVersion = "0.1.0"
