@@ -57,7 +57,7 @@ module Main =
             let result = hw4.sixthTask x y z a
             printfn "%A" result
         elif results.Contains Seventh_task then
-            printfn "Анекдот. Один человек предлагает другому коньяка и спрашивает:\n-Сколько?\n-20\n-Чего 20?\n-А чего сколько?"
+            printfn "Анекдот. Один человек предлагает другому коньяка и спрашивает:\n- Сколько?\n- 20\n- Чего 20?\n- А чего сколько?"
 
         else
             parser.PrintUsage() |> printfn "%s"
