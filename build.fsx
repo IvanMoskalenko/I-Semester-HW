@@ -57,7 +57,7 @@ let testsCodeGlob =
 let srcGlob = src @@ "**/*.??proj"
 let testsGlob = __SOURCE_DIRECTORY__  @@ "tests/**/*.??proj"
 
-let mainApp = src @@ productName
+let mainApp = src @@ HW4
 
 let srcAndTest =
     !! srcGlob
