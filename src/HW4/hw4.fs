@@ -22,7 +22,7 @@ module hw4 =
             resArray.[i] <- array.[i] |> string
         resArray
 
-    let firstTask (arrayForSort: int array) = 
+    let firstTask (arrayForSort: int array) =
         for i = 0 to arrayForSort.Length - 1 do
             for j = i + 1 to arrayForSort.Length - 1 do
                 if arrayForSort.[i] > arrayForSort.[j]
@@ -32,7 +32,7 @@ module hw4 =
                     arrayForSort.[i] <- arrayForSort.[i] - arrayForSort.[j]
         arrayForSort
 
-    let secondTask list = 
+    let secondTask list =
         let rec sort acc reverse list =
             match list, reverse with
             | [], true -> acc |> List.rev
@@ -51,7 +51,7 @@ module hw4 =
                     then go tl (hd :: part1) part2
                     else go tl part1 (hd :: part2)
             go list [] []
-    
+
         let rec go lst =
             match lst with
             | [] -> []
@@ -59,15 +59,18 @@ module hw4 =
             | hd :: tl ->
                 let left, right = split ((>) hd) tl
                 (go left) @ hd :: (go right)
-    
+
         go list
 
-    let rec fourthTask (array : 'a []) =
-        match array with
-        | [||] | [| _ |] -> array
-        | _ -> let l, (r, pivots) = Array.partition (fun n -> n < array.[0]) array
-                                    |> (fun (l, r) -> l, r |> Array.partition (fun n -> n <> array.[0]))
-               Array.concat <| seq { yield (fourthTask l); yield pivots; yield (fourthTask r) }
+    let rec quickSortArray = function
+        | [||] -> [||]
+        | x when x.Length < 2 -> x
+        | x ->
+        let left, (right, pivot) = Array.partition (fun i -> i < x.[0]) x |> (fun (left, right) -> left, right |> Array.partition (fun n -> n <> x.[0]))
+        Array.append (Array.append (left |> quickSortArray ) pivot) (right |> quickSortArray )
+
+    let fourthTask (x: int array) =
+        quickSortArray  x
 
     let fifthTask (x: int32) (y: int32) =
         let x2 = abs (x) |> int64
@@ -96,6 +99,6 @@ module hw4 =
         let result4 (a: int16) = if a < 0s then -res4 else res4
         let result = [|result1 x; result2 y; result3 z; result4 a|]
         result
-        
+
 
 
