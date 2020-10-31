@@ -16,7 +16,6 @@
     
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="input.txt" />
     <Compile Include="hw4.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <None Include="App.config" />

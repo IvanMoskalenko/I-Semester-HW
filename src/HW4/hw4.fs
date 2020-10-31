@@ -2,13 +2,15 @@ namespace HW4
 
 module hw4 =
 
+    let arrayOfIntIntoArrayOfStrings (array: int array) =
+        let resArray = Array.create array.Length ""
+        for i in 0 .. array.Length - 1 do
+            resArray.[i] <- array.[i] |> string
+        resArray
+
     let readArray file =
         let a = System.IO.File.ReadAllLines file
-        let intArr = Array.zeroCreate a.Length
-        let mutable j = 0
-        for i in a do
-            intArr.[j] <- int (i.Trim())
-            j <- j + 1
+        let intArr = [| for i in a -> int (i.Trim()) |]
         intArr
 
     let readList file =
@@ -16,13 +18,10 @@ module hw4 =
         let intList = [ for i in a -> int (i.Trim()) ]
         intList
 
-    let arrayOfIntIntoArrayOfStrings (array: int array) =
-        let resArray = Array.create array.Length ""
-        for i in 0 .. array.Length - 1 do
-            resArray.[i] <- array.[i] |> string
-        resArray
+    let writeArray file array = System.IO.File.WriteAllLines ((file), arrayOfIntIntoArrayOfStrings array)
+    let writeList file list = System.IO.File.WriteAllLines ((file), arrayOfIntIntoArrayOfStrings (List.toArray list))
 
-    let firstTask (arrayForSort: int array) =
+    let arrayBubbleSort (arrayForSort: int array) =
         for i = 0 to arrayForSort.Length - 1 do
             for j = i + 1 to arrayForSort.Length - 1 do
                 if arrayForSort.[i] > arrayForSort.[j]
@@ -32,7 +31,7 @@ module hw4 =
                     arrayForSort.[i] <- arrayForSort.[i] - arrayForSort.[j]
         arrayForSort
 
-    let secondTask list =
+    let listBubbleSort list =
         let rec sort acc reverse list =
             match list, reverse with
             | [], true -> acc |> List.rev
@@ -41,7 +40,7 @@ module hw4 =
             | head :: tail, _ -> sort (head :: acc) reverse tail
         sort [] true list
 
-    let thirdTask list =
+    let listQuickSort list =
         let split opCompare list =
             let rec go lst part1 part2 =
                 match lst with
@@ -69,7 +68,7 @@ module hw4 =
         let left, (right, pivot) = Array.partition (fun i -> i < x.[0]) x |> (fun (left, right) -> left, right |> Array.partition (fun n -> n <> x.[0]))
         Array.append (Array.append (left |> quickSortArray ) pivot) (right |> quickSortArray )
 
-    let fourthTask (x: int array) =
+    let arrayQuickSort (x: int array) =
         quickSortArray  x
 
     let fifthTask (x: int32) (y: int32) =
