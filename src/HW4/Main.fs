@@ -35,7 +35,7 @@ module Main =
             let inputFile = Console.ReadLine () |> string
             printfn "Enter path to output file: "
             let outputFile = Console.ReadLine () |> string
-            let result = func1 (func2(inputFile))
+            let result = func1 (func2 (inputFile))
             func3 outputFile result
 
         if results.Contains ArrayBubbleSort then funcForHW4 hw4.arrayBubbleSort hw4.readArray hw4.writeArray
