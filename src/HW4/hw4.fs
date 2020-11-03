@@ -26,19 +26,30 @@ module hw4 =
             for j = i + 1 to arrayForSort.Length - 1 do
                 if arrayForSort.[i] > arrayForSort.[j]
                 then
-                    arrayForSort.[i] <- arrayForSort.[i] + arrayForSort.[j]
-                    arrayForSort.[j] <- arrayForSort.[i] - arrayForSort.[j]
-                    arrayForSort.[i] <- arrayForSort.[i] - arrayForSort.[j]
+                    let x = arrayForSort.[i]
+                    arrayForSort.[i] <- arrayForSort.[j]
+                    arrayForSort.[j] <- x
         arrayForSort
 
-    let listBubbleSort list =
-        let rec sort acc reverse list =
-            match list, reverse with
-            | [], true -> acc |> List.rev
-            | [], false -> acc |> List.rev |> sort [] true
-            | x :: y :: tail, _ when x > y -> sort (y :: acc) false (x :: tail)
-            | head :: tail, _ -> sort (head :: acc) reverse tail
-        sort [] true list
+    let listBubbleSort (list: list<int>) =
+        let mutable k = 0
+        let rec _go (list: list<int>) =
+            let res =
+                match list with
+                | [] -> []
+                | x :: y :: tail ->
+                    if x > y
+                    then
+                        y :: (_go (x :: tail))
+                    else
+                        x :: (_go (y :: tail))
+                | x :: tail -> [x]
+            if k < list.Length
+            then
+                k <- k + 1
+                _go res
+            else res
+        _go list
 
     let listQuickSort list =
         let split opCompare list =
@@ -51,53 +62,66 @@ module hw4 =
                     else go tl part1 (hd :: part2)
             go list [] []
 
-        let rec go lst =
+        let rec _go lst =
             match lst with
             | [] -> []
             | [x] -> [x]
             | hd :: tl ->
                 let left, right = split ((>) hd) tl
-                (go left) @ hd :: (go right)
+                (_go left) @ hd :: (_go right)
 
-        go list
+        _go list
 
-    let rec quickSortArray = function
+    let rec quickSortArrayForExperiments = function
         | [||] -> [||]
         | x when x.Length < 2 -> x
         | x ->
         let left, (right, pivot) = Array.partition (fun i -> i < x.[0]) x |> (fun (left, right) -> left, right |> Array.partition (fun n -> n <> x.[0]))
-        Array.append (Array.append (left |> quickSortArray ) pivot) (right |> quickSortArray )
+        Array.append (Array.append (left |> quickSortArrayForExperiments ) pivot) (right |> quickSortArrayForExperiments )
 
-    let arrayQuickSort (x: int array) =
-        quickSortArray  x
+    let arrayQuickSortForExperiments (x: int array) =
+        quickSortArrayForExperiments  x
 
-    let fifthTask (x: int32) (y: int32) =
-        let x2 = abs (x) |> int64
-        let y2 = abs (y) |> int64
-        let transform: int64 = (x2 <<< 32) ||| y2
-        let res1 = transform >>> 32 |> int32
-        let res2 = transform |> int32
-        let result1 x = if x < 0 then -res1 else res1
-        let result2 y = if y < 0 then -res2 else res2
-        let result = [|result1 x; result2 y|]
-        result
+    let rec arrayQuickSort (arr: array<int>) =
+        if arr.Length <= 1
+        then
+            arr
+        else
+            let pivot = arr.[arr.Length / 2]
+            let pivots, leftright = Array.partition(fun i -> i = pivot) arr
+            let left, right = Array.partition(fun i -> i < pivot) leftright
+            Array.append (Array.append (arrayQuickSort left) pivots) (arrayQuickSort right)
 
-    let sixthTask (x: int16) (y: int16) (z: int16) (a: int16) =
-        let x2 = abs (x) |> int64
-        let y2 = abs (y) |> int64
-        let z2 = abs (z) |> int64
-        let a2 = abs (a) |> int64
-        let transform: int64 = (x2 <<< 48) ||| (y2 <<< 32) ||| (z2 <<< 16) ||| a2
-        let res1 = transform >>> 48 |> int16
-        let res2 = (transform <<< 16) >>> 48 |> int16
-        let res3 = (transform <<< 32) >>> 48 |> int16
-        let res4 = (transform <<< 48) >>> 48 |> int16
-        let result1 (x: int16) = if x < 0s then -res1 else res1
-        let result2 (y: int16) = if y < 0s then -res2 else res2
-        let result3 (z: int16) = if z < 0s then -res3 else res3
-        let result4 (a: int16) = if a < 0s then -res4 else res4
-        let result = [|result1 x; result2 y; result3 z; result4 a|]
-        result
+    let pack32bitInto64 (x: int32, y: int32) =
+        if y >= 0
+        then
+            (x |> int64 <<< 32) + (y |> int64)
+        else
+            (x |> int64 <<< 32) + (2.0 ** 32.0 |> int64) + (y |> int64)
+
+    let unpack64bitInto32 (transformed: int64) =
+        (transformed >>> 32 |> int32, (transformed <<< 32) >>> 32 |> int32)
+
+    let pack16bitInto32 (x: int16, y: int16) =
+        if y >= 0s
+        then
+            (x |> int32 <<< 16) + (y |> int32)
+        else
+            (x |> int32 <<< 16) + (2.0 ** 16.0 |> int32) + (y |> int32)
+
+    let pack16bitInto64 (x: int16, y: int16, z: int16, a: int16) =
+        pack32bitInto64 (pack16bitInto32 (x, y), pack16bitInto32 (z, a))
+
+    let unpack32bitInto16 (transformed: int) =
+        (transformed >>> 16 |> int16, (transformed <<< 16) >>> 16 |> int16)
+
+    let unpack64bitInto16 (transformed: int64) =
+        let xyza = unpack64bitInto32 transformed
+        let xy = unpack32bitInto16 (fst xyza)
+        let za = unpack32bitInto16 (snd xyza)
+        (fst xy, snd xy, fst za, snd za)
+
+
 
 
 

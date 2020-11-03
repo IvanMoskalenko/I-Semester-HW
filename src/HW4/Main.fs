@@ -9,8 +9,8 @@ module Main =
         | ListBubbleSort
         | ListQuickSort
         | ArrayQuickSort
-        | Fifth_task
-        | Sixth_task
+        | PackAndUnpack32
+        | PackAndUnpack16
         | JokeOfTerekhov
         interface IArgParserTemplate with
             member s.Usage =
@@ -19,8 +19,8 @@ module Main =
                 | ListBubbleSort -> "Bubble sort for list"
                 | ListQuickSort -> "Quicksort for list"
                 | ArrayQuickSort -> "Quick sort for array"
-                | Fifth_task -> "Fifth task"
-                | Sixth_task -> "Sixth task"
+                | PackAndUnpack32 -> "Packing and unpacking two 32bit numbers"
+                | PackAndUnpack16 -> "Packing and unpacking two 16bit numbers"
                 | JokeOfTerekhov -> "Terekhov's joke"
 
 
@@ -43,20 +43,22 @@ module Main =
         elif results.Contains ListQuickSort then funcForHW4 hw4.listQuickSort hw4.readList hw4.writeList
         elif results.Contains ArrayQuickSort then funcForHW4 hw4.arrayQuickSort hw4.readArray hw4.writeArray
 
-        elif results.Contains Fifth_task then
+        elif results.Contains PackAndUnpack32 then
             printfn "Enter two int32 numbers:"
             let x = Console.ReadLine () |> int32
             let y = Console.ReadLine () |> int32
-            let result = hw4.fifthTask x y
+            let result = hw4.unpack64bitInto32 (hw4.pack32bitInto64 (x, y))
             printfn "%A" result
-        elif results.Contains Sixth_task then
+
+        elif results.Contains PackAndUnpack16 then
             printfn "Enter four int16 numbers:"
             let x = Console.ReadLine () |> int16
             let y = Console.ReadLine () |> int16
             let z = Console.ReadLine () |> int16
             let a = Console.ReadLine () |> int16
-            let result = hw4.sixthTask x y z a
+            let result = hw4.unpack64bitInto16 (hw4.pack16bitInto64 (x, y, z, a))
             printfn "%A" result
+
         elif results.Contains JokeOfTerekhov then
             printfn "Анекдот. Один человек предлагает другому коньяка и спрашивает:\n- Сколько?\n- 20\n- Чего 20?\n- А чего сколько?"
 
