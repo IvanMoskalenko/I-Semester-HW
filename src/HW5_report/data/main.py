@@ -44,44 +44,59 @@ def drawFiles(filesWithLegend, out):
     plt.close(fig)
 
 
-drawFiles([('timingsCustomListQuickSortOut5_debug_noGC.csv', "qSort, no GC"),
-           ('timingsSystemListSortOut5_debug_noGC.csv', "List.sort, no GC")],
-          "ListSort5ReleaseNoGC.pdf")
+drawFiles([('ListQuickSort_debug_noGC.csv', "qSort, no GC, debug"),
+           ('ListSort_debug_noGC.csv', "List.sort, no GC, debug"),
+           ('ListQuickSort_debug_GC.csv', "qSort, GC, debug"),
+           ('ListSort_debug_GC.csv', "List.sort, GC, debug"),
+           ('ListQuickSort_release_noGC.csv', "qSort, no GC, release"),
+           ('ListSort_release_noGC.csv', "List.sort, no GC, release"),
+           ('ListQuickSort_release_GC.csv', "qSort, GC, release"),
+           ('ListSort_release_GC.csv', "List.sort, GC, release")
+           ],
+          "SystemListSortVSCustomQSort.pdf")
 
-#labels = []
-#drawFiles([('timingsCustomListSortOut10_release.csv', "qSort"),
-#           ('timingsSystemListSortOut10_release.csv', "List.sort")],
-#          "ListSort10ReleaseGC.pdf")
+drawFiles([('ListQuickSort_debug_noGC.csv', "qSort, no GC, debug"),
+           ('ListBubbleSort_debug_noGC.csv', "bSort, no GC, debug"),
+           ('ListQuickSort_debug_GC.csv', "qSort, GC, debug"),
+           ('ListBubbleSort_debug_GC.csv', "bSort, GC, debug"),
+           ('ListQuickSort_release_noGC.csv', "qSort, no GC, release"),
+           ('ListBubbleSort_release_noGC.csv', "bSort, no GC, release"),
+           ('ListQuickSort_release_GC.csv', "qSort, GC, release"),
+           ('ListBubbleSort_release_GC.csv', "bSort, GC, release")
+           ],
+          "CustomListBubbleSortVSCustomQSort.pdf")
 
-#labels = []
-#drawFiles([('timingsCustomListSortOut5_debug.csv', "qSort"),
-#           ('timingsSystemListSortOut5_debug.csv', "List.sort")],
- #         "ListSort5DebugGC.pdf")
+drawFiles([('ArrayQuickSort_debug_noGC.csv', "qSort, no GC, debug"),
+           ('ArraySort_debug_noGC.csv', "Array.sort, no GC, debug"),
+           ('ArrayQuickSort_debug_GC.csv', "qSort, GC, debug"),
+           ('ArraySort_debug_GC.csv', "Array.sort, GC, debug"),
+           ('ArrayQuickSort_release_noGC.csv', "qSort, no GC, release"),
+           ('ArraySort_release_noGC.csv', "Array.sort, no GC, release"),
+           ('ArrayQuickSort_release_GC.csv', "qSort, GC, release"),
+           ('ArraySort_release_GC.csv', "Array.sort, GC, release")
+           ],
+          "SystemArraySortVSCustomQSort.pdf")
 
-#labels = []
-#drawFiles([('timingsCustomListSortOut5_release_noGC.csv', "qSort"),
-    #       ('timingsSystemListSortOut5_release_noGC.csv', "List.sort")],
-     #     "ListSort5ReleaseNoGC.pdf")
+drawFiles([('ArrayQuickSort_debug_noGC.csv', "qSort, no GC, debug"),
+           ('ArrayBubbleSort_debug_noGC.csv', "bSort, no GC, debug"),
+           ('ArrayQuickSort_debug_GC.csv', "qSort, GC, debug"),
+           ('ArrayBubbleSort_debug_GC.csv', "bSort, GC, debug"),
+           ('ArrayQuickSort_release_noGC.csv', "qSort, no GC, release"),
+           ('ArrayBubbleSort_release_noGC.csv', "bSort, no GC, release"),
+           ('ArrayQuickSort_release_GC.csv', "qSort, GC, release"),
+           ('ArrayBubbleSort_release_GC.csv', "bSort, GC, release")
+           ],
+          "CustomArrayBubbleSortVSCustomQSort.pdf")
 
-#labels = []
-#drawFiles([('timingsCustomListSortOut5_release_GC_charging.csv', "qSort"),
-      #     ('timingsSystemListSortOut5_release_GC_charging.csv', "List.sort")],
-      #    "ListSort5ReleaseGCCharging.pdf")
+drawFiles([('ArrayQuickSort_debug_noGC.csv', "qSort, no GC, debug"),
+           ('ArrayQuickSortForExp_debug_noGC.csv', "Not optimized qSort, no GC, debug"),
+           ('ArrayQuickSort_debug_GC.csv', "qSort, GC, debug"),
+           ('ArrayQuickSortForExp_debug_GC.csv', "Not optimized qSort, GC, debug"),
+           ('ArrayQuickSort_release_noGC.csv', "qSort, no GC, release"),
+           ('ArrayQuickSortForExp_release_noGC.csv', "Not optimized qSort, no GC, release"),
+           ('ArrayQuickSort_release_GC.csv', "qSort, GC, release"),
+           ('ArrayQuickSortForExp_release_GC.csv', "Not optimized qSort, GC, release")
+           ],
+          "NotOptimizedArrayQuickSortVSOptimizedQSort.pdf")
 
-#labels = []
-#drawFiles([('timingsCustomListSortOut5_release_GC_charging.csv', "release, GC, charging"),
-      #     ('timingsCustomListSortOut5_release_noGC.csv', "release, no GC, charging"),
-      #     ('timingsCustomListSortOut5_debug.csv', "debug, GC, charging")],
-        #  "ListCustomSort5ReleaseGCCharging.pdf")
 
-#labels = []
-#drawFiles([('timingsCustomListSortOut5_release_GC_charging_2.csv', "release, GC, charging"),
- #          ('timingsCustomListSortOut5_release_noGC.csv', "release, no GC, no charging"),
-       #    ('timingsCustomListSortOut5_debug.csv', "debug, GC, charging")],
-       #   "ListCustomSort5ReleaseGCCharging2.pdf")
-
-#labels = []
-#drawFiles([('timingsSystemListSortOut5_release_GC_charging_2.csv', "release, GC, charging"),
-     #      ('timingsSystemListSortOut5_release_noGC.csv', "release, no GC, no charging"),
-        #   ('timingsSystemListSortOut5_debug.csv', "debug, GC, charging")],
-       #   "ListSystemSort5ReleaseGCCharging2.pdf")
