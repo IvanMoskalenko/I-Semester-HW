@@ -18,6 +18,8 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <None Include="App.config" />
+    <Compile Include="hw5.fs" />
+    <Compile Include="sorts.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
   <ItemGroup />
