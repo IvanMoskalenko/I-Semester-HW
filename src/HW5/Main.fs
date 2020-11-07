@@ -1,4 +1,6 @@
 namespace HW5
+open HW4
+
 module Main =
     [<EntryPoint>]
     let main (argv: string array) =
@@ -9,27 +11,45 @@ module Main =
         let configNoGCForBubbleArray = new hw5.PerfConfig (1000, 500, 50 * 1000, false)
         let configGCForBubbleArray = new hw5.PerfConfig (1000, 500, 50 * 1000, true)
 
-        (*hw5.perfTestsForLists configNoGC List.sort 25 "ListSort_debug_noGC.csv"
-        hw5.perfTestsForLists configNoGC sorts.listQuickSort 25 "ListQuickSort_debug_noGC.csv"
-        hw5.perfTestsForArrays configNoGC Array.sort 25 "ArraySort_debug_noGC.csv"
-        hw5.perfTestsForArrays configNoGC sorts.arrayQuickSortForExperiments 25 "ArrayQuickSortForExp_debug_noGC.csv"
-        hw5.perfTestsForArrays configNoGC sorts.arrayQuickSort 25 "ArrayQuickSort_debug_noGC.csv"
-
+        hw5.perfTestsForLists configNoGC List.sort 25 "ListSort_debug_noGC.csv"
         hw5.perfTestsForLists configGC List.sort 25 "ListSort_debug_GC.csv"
-        hw5.perfTestsForLists configGC sorts.listQuickSort 25 "ListQuickSort_debug_GC.csv"
+        hw5.perfTestsForLists configNoGC hw4.listQuickSort 25 "ListQuickSort_debug_noGC.csv"
+        hw5.perfTestsForLists configGC hw4.listQuickSort 25 "ListQuickSort_debug_GC.csv"
+
+        hw5.perfTestsForArrays configNoGC Array.sort 25 "ArraySort_debug_noGC.csv"
         hw5.perfTestsForArrays configGC Array.sort 25 "ArraySort_debug_GC.csv"
-        hw5.perfTestsForArrays configGC sorts.arrayQuickSortForExperiments 25 "ArrayQuickSortForExp_debug_GC.csv"
-        hw5.perfTestsForArrays configGC sorts.arrayQuickSort 25 "ArrayQuickSort_debug_GC.csv"
+        hw5.perfTestsForArrays configNoGC hw4.arrayQuickSortForExperiments 25 "ArrayQuickSortForExp_debug_noGC.csv"
+        hw5.perfTestsForArrays configGC hw4.arrayQuickSortForExperiments 25 "ArrayQuickSortForExp_debug_GC.csv"
+        hw5.perfTestsForArrays configNoGC hw4.arrayQuickSort 25 "ArrayQuickSort_debug_noGC.csv"
+        hw5.perfTestsForArrays configGC hw4.arrayQuickSort 25 "ArrayQuickSort_debug_GC.csv"
 
-        hw5.perfTestsForLists configNoGCForBubble sorts.listQuickSort 25 "ListQuickSortForBubble_debug_noGC.csv"
-        hw5.perfTestsForLists configGCForBubble sorts.listQuickSort 25 "ListQuickSortForBubble_debug_GC.csv"
-        hw5.perfTestsForLists configNoGCForBubble sorts.listBubbleSort 25 "ListBubbleSort_debug_noGC.csv"
-        hw5.perfTestsForLists configGCForBubble sorts.listBubbleSort 25 "ListBubbleSort_debug_GC.csv"*)
+        hw5.perfTestsForLists configGCForBubble hw4.listQuickSort 25 "ListQuickSortForBubble_debug_GC.csv"
+        hw5.perfTestsForLists configNoGCForBubble hw4.listBubbleSort 25 "ListBubbleSort_debug_noGC.csv"
+        hw5.perfTestsForLists configGCForBubble hw4.listBubbleSort 25 "ListBubbleSort_debug_GC.csv"
+        hw5.perfTestsForLists configGCForBubble List.sort 25 "ListSortForBubble_debug_GC.csv"
 
-        hw5.perfTestsForArrays configGCForBubbleArray sorts.arrayQuickSort 25 "ArrayQuickSortForBubble_debug_GC.csv"
-        hw5.perfTestsForArrays configNoGCForBubbleArray sorts.arrayQuickSort 25 "ArrayQuickSortForBubble_debug_noGC.csv"
-        hw5.perfTestsForArrays configGCForBubbleArray sorts.arrayBubbleSort 25 "ArrayBubbleSort_debug_GC.csv"
-        hw5.perfTestsForArrays configNoGCForBubbleArray sorts.arrayBubbleSort 25 "ArrayBubbleSort_debug_noGC.csv"
+        hw5.perfTestsForArrays configGCForBubbleArray hw4.arrayQuickSort 25 "ArrayQuickSortForBubble_debug_GC.csv"
+        hw5.perfTestsForArrays configGCForBubbleArray hw4.arrayBubbleSort 25 "ArrayBubbleSort_debug_GC.csv"
+        hw5.perfTestsForArrays configNoGCForBubbleArray hw4.arrayBubbleSort 25 "ArrayBubbleSort_debug_noGC.csv"
+        hw5.perfTestsForArrays configGCForBubbleArray Array.sort 25 "ArraySort_debug_GC.csv"
+
+        (*
+        hw5.perfTestsForLists configGC List.sort 25 "ListSort_release_GC.csv"
+        hw5.perfTestsForLists configGC hw4.listQuickSort 25 "ListQuickSort_release_GC.csv"
+
+        hw5.perfTestsForArrays configGC Array.sort 25 "ArraySort_release_GC.csv"
+        hw5.perfTestsForArrays configGC hw4.arrayQuickSortForExperiments 25 "ArrayQuickSortForExp_release_GC.csv"
+        hw5.perfTestsForArrays configGC hw4.arrayQuickSort 25 "ArrayQuickSort_release_GC.csv"
+
+        hw5.perfTestsForLists configGCForBubble hw4.listQuickSort 25 "ListQuickSortForBubble_release_GC.csv"
+        hw5.perfTestsForLists configGCForBubble hw4.listBubbleSort 25 "ListBubbleSort_release_GC.csv"
+        hw5.perfTestsForLists configGCForBubble List.sort 25 "ListSortForBubble_release_GC.csv"
+
+        hw5.perfTestsForArrays configGCForBubbleArray hw4.arrayQuickSort 25 "ArrayQuickSortForBubble_release_GC.csv"
+        hw5.perfTestsForArrays configGCForBubbleArray hw4.arrayBubbleSort 25 "ArrayBubbleSort_release_GC.csv"
+        hw5.perfTestsForArrays configGCForBubbleArray Array.sort 25 "ArraySort_release_GC.csv"
+        *)
+
         0
 
 
