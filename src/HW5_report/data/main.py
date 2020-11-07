@@ -55,13 +55,13 @@ drawFiles([('ListQuickSort_debug_noGC.csv', "qSort, no GC, debug"),
            ],
           "SystemListSortVSCustomQSort.pdf")
 
-drawFiles([('ListQuickSort_debug_noGC.csv', "qSort, no GC, debug"),
+drawFiles([('ListQuickSortForBubble_debug_noGC.csv', "qSort, no GC, debug"),
            ('ListBubbleSort_debug_noGC.csv', "bSort, no GC, debug"),
-           ('ListQuickSort_debug_GC.csv', "qSort, GC, debug"),
+           ('ListQuickSortForBubble_debug_GC.csv', "qSort, GC, debug"),
            ('ListBubbleSort_debug_GC.csv', "bSort, GC, debug"),
-           ('ListQuickSort_release_noGC.csv', "qSort, no GC, release"),
+           ('ListQuickSortForBubble_release_noGC.csv', "qSort, no GC, release"),
            ('ListBubbleSort_release_noGC.csv', "bSort, no GC, release"),
-           ('ListQuickSort_release_GC.csv', "qSort, GC, release"),
+           ('ListQuickSortForBubble_release_GC.csv', "qSort, GC, release"),
            ('ListBubbleSort_release_GC.csv', "bSort, GC, release")
            ],
           "CustomListBubbleSortVSCustomQSort.pdf")
