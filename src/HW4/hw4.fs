@@ -82,15 +82,29 @@ module hw4 =
     let arrayQuickSortForExperiments (x: int array) =
         quickSortArrayForExperiments  x
 
-    let rec arrayQuickSort (arr: array<int>) =
-        if arr.Length <= 1
-        then
-            arr
-        else
-            let pivot = arr.[arr.Length / 2]
-            let pivots, leftright = Array.partition(fun i -> i = pivot) arr
-            let left, right = Array.partition(fun i -> i < pivot) leftright
-            Array.append (Array.append (arrayQuickSort left) pivots) (arrayQuickSort right)
+    let arrayQuickSort (arr: array<int>) =
+        let swap (arr: array<int>) i j =
+            let c = arr.[i]
+            arr.[i] <- arr.[j]
+            arr.[j] <- c
+        let partition (arr: array<int>) low high =
+            let pivot = arr.[high]
+            let mutable lowIndex = low - 1
+            for i = low to (high - 1) do
+                if arr.[i] <= pivot
+                then
+                    lowIndex <- lowIndex + 1
+                    swap arr lowIndex i
+            swap arr (lowIndex + 1) high
+            lowIndex + 1
+        let rec _go (arr: array<int>) low high =
+            if low < high
+            then
+                let partIndex = partition arr low high
+                if partIndex > 1 then _go arr low (partIndex - 1)
+                if (partIndex + 1) < high then _go arr (partIndex + 1) high
+        _go arr 0 (arr.Length - 1)
+        arr
 
     let pack32bitInto64 (x: int32, y: int32) =
         if y >= 0
@@ -116,10 +130,10 @@ module hw4 =
         (transformed >>> 16 |> int16, (transformed <<< 16) >>> 16 |> int16)
 
     let unpack64bitInto16 (transformed: int64) =
-        let xyza = unpack64bitInto32 transformed
-        let xy = unpack32bitInto16 (fst xyza)
-        let za = unpack32bitInto16 (snd xyza)
-        (fst xy, snd xy, fst za, snd za)
+        let xy, za = unpack64bitInto32 transformed
+        let x, y = unpack32bitInto16 xy
+        let z, a = unpack32bitInto16 za
+        (x, y, z, a)
 
 
 

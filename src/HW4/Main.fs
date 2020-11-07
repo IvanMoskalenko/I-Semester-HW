@@ -9,8 +9,10 @@ module Main =
         | ListBubbleSort
         | ListQuickSort
         | ArrayQuickSort
-        | PackAndUnpack32
-        | PackAndUnpack16
+        | Pack32
+        | Pack16
+        | Unpack32
+        | Unpack16
         | JokeOfTerekhov
         interface IArgParserTemplate with
             member s.Usage =
@@ -19,8 +21,10 @@ module Main =
                 | ListBubbleSort -> "Bubble sort for list"
                 | ListQuickSort -> "Quicksort for list"
                 | ArrayQuickSort -> "Quick sort for array"
-                | PackAndUnpack32 -> "Packing and unpacking two 32bit numbers"
-                | PackAndUnpack16 -> "Packing and unpacking two 16bit numbers"
+                | Pack32 -> "Packing two 32bit numbers"
+                | Pack16 -> "Packing four 16bit numbers"
+                | Unpack32 -> "Unpacking 64bit number into two 32bit numbers"
+                | Unpack16 -> "Unpacking 64bit number into four 16bit numbers"
                 | JokeOfTerekhov -> "Terekhov's joke"
 
 
@@ -43,20 +47,32 @@ module Main =
         elif results.Contains ListQuickSort then funcForHW4 hw4.listQuickSort hw4.readList hw4.writeList
         elif results.Contains ArrayQuickSort then funcForHW4 hw4.arrayQuickSort hw4.readArray hw4.writeArray
 
-        elif results.Contains PackAndUnpack32 then
-            printfn "Enter two int32 numbers:"
+        elif results.Contains Pack32 then
+            printfn "Enter two int32 numbers: "
             let x = Console.ReadLine () |> int32
             let y = Console.ReadLine () |> int32
-            let result = hw4.unpack64bitInto32 (hw4.pack32bitInto64 (x, y))
+            let result = hw4.pack32bitInto64 (x, y)
             printfn "%A" result
 
-        elif results.Contains PackAndUnpack16 then
+        elif results.Contains Unpack32 then
+            printfn "Enter int64 number: "
+            let x = Console.ReadLine () |> int64
+            let result = hw4.unpack64bitInto32 x
+            printfn "%A" result
+
+        elif results.Contains Pack16 then
             printfn "Enter four int16 numbers:"
             let x = Console.ReadLine () |> int16
             let y = Console.ReadLine () |> int16
             let z = Console.ReadLine () |> int16
             let a = Console.ReadLine () |> int16
-            let result = hw4.unpack64bitInto16 (hw4.pack16bitInto64 (x, y, z, a))
+            let result = hw4.pack16bitInto64 (x, y, z, a)
+            printfn "%A" result
+
+        elif results.Contains Unpack16 then
+            printfn "Enter int64 number: "
+            let x = Console.ReadLine () |> int64
+            let result = hw4.unpack64bitInto16 x
             printfn "%A" result
 
         elif results.Contains JokeOfTerekhov then
