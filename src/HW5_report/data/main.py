@@ -4,39 +4,49 @@ import pandas as pd
 
 labels = []
 
-
 def add_label(violin, label):
     color = violin["bodies"][0].get_facecolor().flatten()
     labels.append((mpatches.Patch(color=color), label))
 
 
-def draw(file, name, axs):
+def draw(file, name, axs, wLbl):
     df = pd.read_csv(file)
-    data = [[d[1][0], d[1][1:]] for d in df.iterrows()]  # [0::5]
+    data = [[d[1][0], d[1][1:]] for d in df.iterrows()]
 
     plt.ioff()
 
     r = [d[1] for d in data]
     lbl = [d[0] / 1000 for d in data]
+    lbl2 = [d[0] for d in data]
+    if wLbl == "wLbl1":
+        add_label(axs.violinplot(r,
+                                 positions=lbl,
+                                 widths=50,
+                                 showmeans=False,
+                                 showmedians=True),
+                  name)
+    else:
+        add_label(axs.violinplot(r,
+                                 positions=lbl2,
+                                 widths=50,
+                                 showmeans=False,
+                                 showmedians=True),
+                  name)
 
-    add_label(axs.violinplot(r,
-                             positions=lbl,
-                             widths=50,
-                             showmeans=False,
-                             showmedians=True),
-              name)
 
-
-def drawFiles(filesWithLegend, out):
+def drawFiles(filesWithLegend, out, wLbl):
     fig = plt.figure()
     axs = plt.axes()
 
     axs.yaxis.grid(True)
-    axs.set_xlabel('Длина входного списка (* 1000)')
+    if wLbl == "wLbl1":
+        axs.set_xlabel('Длина входного списка (* 1000)')
+    else:
+        axs.set_xlabel('Длина входного списка')
     axs.set_ylabel('Время сортировки (миллисекунды)')
 
     for (file, legend) in filesWithLegend:
-        draw(file, legend, axs)
+        draw(file, legend, axs, wLbl)
 
     plt.legend(*zip(*labels), loc=2)
 
@@ -47,56 +57,36 @@ def drawFiles(filesWithLegend, out):
 drawFiles([('ListQuickSort_debug_noGC.csv', "qSort, no GC, debug"),
            ('ListSort_debug_noGC.csv', "List.sort, no GC, debug"),
            ('ListQuickSort_debug_GC.csv', "qSort, GC, debug"),
-           ('ListSort_debug_GC.csv', "List.sort, GC, debug"),
-           ('ListQuickSort_release_noGC.csv', "qSort, no GC, release"),
-           ('ListSort_release_noGC.csv', "List.sort, no GC, release"),
-           ('ListQuickSort_release_GC.csv', "qSort, GC, release"),
-           ('ListSort_release_GC.csv', "List.sort, GC, release")
+           ('ListSort_debug_GC.csv', "List.sort, GC, debug")
            ],
-          "SystemListSortVSCustomQSort.pdf")
-
+          "SystemListSortVSCustomQSort.pdf", "wLbl1")
+labels = []
 drawFiles([('ListQuickSortForBubble_debug_noGC.csv', "qSort, no GC, debug"),
            ('ListBubbleSort_debug_noGC.csv', "bSort, no GC, debug"),
            ('ListQuickSortForBubble_debug_GC.csv', "qSort, GC, debug"),
-           ('ListBubbleSort_debug_GC.csv', "bSort, GC, debug"),
-           ('ListQuickSortForBubble_release_noGC.csv', "qSort, no GC, release"),
-           ('ListBubbleSort_release_noGC.csv', "bSort, no GC, release"),
-           ('ListQuickSortForBubble_release_GC.csv', "qSort, GC, release"),
-           ('ListBubbleSort_release_GC.csv', "bSort, GC, release")
+           ('ListBubbleSort_debug_GC.csv', "bSort, GC, debug")
            ],
-          "CustomListBubbleSortVSCustomQSort.pdf")
-
+          "CustomListBubbleSortVSCustomQSort.pdf", "wLbl2")
+labels = []
 drawFiles([('ArrayQuickSort_debug_noGC.csv', "qSort, no GC, debug"),
            ('ArraySort_debug_noGC.csv', "Array.sort, no GC, debug"),
            ('ArrayQuickSort_debug_GC.csv', "qSort, GC, debug"),
-           ('ArraySort_debug_GC.csv', "Array.sort, GC, debug"),
-           ('ArrayQuickSort_release_noGC.csv', "qSort, no GC, release"),
-           ('ArraySort_release_noGC.csv', "Array.sort, no GC, release"),
-           ('ArrayQuickSort_release_GC.csv', "qSort, GC, release"),
-           ('ArraySort_release_GC.csv', "Array.sort, GC, release")
+           ('ArraySort_debug_GC.csv', "Array.sort, GC, debug")
            ],
-          "SystemArraySortVSCustomQSort.pdf")
-
-drawFiles([('ArrayQuickSort_debug_noGC.csv', "qSort, no GC, debug"),
+          "SystemArraySortVSCustomQSort.pdf", "wLbl1")
+labels = []
+drawFiles([('ArrayQuickSortForBubble_debug_noGC.csv', "qSort, no GC, debug"),
            ('ArrayBubbleSort_debug_noGC.csv', "bSort, no GC, debug"),
-           ('ArrayQuickSort_debug_GC.csv', "qSort, GC, debug"),
-           ('ArrayBubbleSort_debug_GC.csv', "bSort, GC, debug"),
-           ('ArrayQuickSort_release_noGC.csv', "qSort, no GC, release"),
-           ('ArrayBubbleSort_release_noGC.csv', "bSort, no GC, release"),
-           ('ArrayQuickSort_release_GC.csv', "qSort, GC, release"),
-           ('ArrayBubbleSort_release_GC.csv', "bSort, GC, release")
+           ('ArrayQuickSortForBubble_debug_GC.csv', "qSort, GC, debug"),
+           ('ArrayBubbleSort_debug_GC.csv', "bSort, GC, debug")
            ],
-          "CustomArrayBubbleSortVSCustomQSort.pdf")
-
+          "CustomArrayBubbleSortVSCustomQSort.pdf", "wLbl2")
+labels = []
 drawFiles([('ArrayQuickSort_debug_noGC.csv', "qSort, no GC, debug"),
            ('ArrayQuickSortForExp_debug_noGC.csv', "Not optimized qSort, no GC, debug"),
            ('ArrayQuickSort_debug_GC.csv', "qSort, GC, debug"),
-           ('ArrayQuickSortForExp_debug_GC.csv', "Not optimized qSort, GC, debug"),
-           ('ArrayQuickSort_release_noGC.csv', "qSort, no GC, release"),
-           ('ArrayQuickSortForExp_release_noGC.csv', "Not optimized qSort, no GC, release"),
-           ('ArrayQuickSort_release_GC.csv', "qSort, GC, release"),
-           ('ArrayQuickSortForExp_release_GC.csv', "Not optimized qSort, GC, release")
+           ('ArrayQuickSortForExp_debug_GC.csv', "Not optimized qSort, GC, debug")
            ],
-          "NotOptimizedArrayQuickSortVSOptimizedQSort.pdf")
+          "NotOptimizedArrayQuickSortVSOptimizedQSort.pdf", "wLbl1")
 
 
