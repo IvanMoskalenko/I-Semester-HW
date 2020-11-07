@@ -83,26 +83,28 @@ module hw4 =
         quickSortArrayForExperiments  x
 
     let arrayQuickSort (arr: array<int>) =
-        if arr = [||] then [||]
-        else
-            let rec _go (arr: array<int>) low high =
-                let mutable index = low
-                let mutable pivotInd = high
-                let pivot = arr.[pivotInd]
-                while index < pivotInd do
-                    if arr.[index] > pivot
-                    then
-                        arr.[pivotInd] <- arr.[index]
-                        pivotInd <- pivotInd - 1
-                        arr.[index] <- arr.[pivotInd]
-                        arr.[pivotInd] <- pivot
-                    else index <- index + 1
-                if pivotInd <> low
-                then _go arr low (pivotInd - 1)
-                if pivotInd <> high
-                then _go arr (pivotInd + 1) high
-            _go arr 0 (arr.Length - 1)
-            arr
+        let swap (arr: array<int>) i j =
+            let c = arr.[i]
+            arr.[i] <- arr.[j]
+            arr.[j] <- c
+        let partition (arr: array<int>) low high =
+            let pivot = arr.[high]
+            let mutable lowIndex = low - 1
+            for i = low to (high - 1) do
+                if arr.[i] <= pivot
+                then
+                    lowIndex <- lowIndex + 1
+                    swap arr lowIndex i
+            swap arr (lowIndex + 1) high
+            lowIndex + 1
+        let rec _go (arr: array<int>) low high =
+            if low < high
+            then
+                let partIndex = partition arr low high
+                if partIndex > 1 then _go arr low (partIndex - 1)
+                if (partIndex + 1) < high then _go arr (partIndex + 1) high
+        _go arr 0 (arr.Length - 1)
+        arr
 
     let pack32bitInto64 (x: int32, y: int32) =
         if y >= 0
