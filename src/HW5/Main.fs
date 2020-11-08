@@ -28,8 +28,8 @@ module Main =
         hw5.perfTestsForLists configGCForBubble hw4.listBubbleSort 25 "ListBubbleSort_debug_GC.csv"
         hw5.perfTestsForLists configGCForBubble List.sort 25 "ListSortForBubble_debug_GC.csv"
 
-        hw5.perfTestsForArrays configGCForBubbleArray hw4.arrayQuickSort 25 "ArrayQuickSortForBubble_debug_GC.csv"
-        hw5.perfTestsForArrays configGCForBubbleArray hw4.arrayBubbleSort 25 "ArrayBubbleSort_debug_GC.csv"
+        hw5.perfTestsForArrays configGCForBubble hw4.arrayQuickSort 25 "ArrayQuickSortForBubble_debug_GC.csv"
+        hw5.perfTestsForArrays configGCForBubble hw4.arrayBubbleSort 25 "ArrayBubbleSort_debug_GC.csv"
         hw5.perfTestsForArrays configNoGCForBubbleArray hw4.arrayBubbleSort 25 "ArrayBubbleSort_debug_noGC.csv"
         hw5.perfTestsForArrays configGCForBubbleArray Array.sort 25 "ArraySort_debug_GC.csv"
 
