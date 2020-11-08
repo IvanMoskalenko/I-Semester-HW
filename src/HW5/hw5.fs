@@ -23,18 +23,18 @@ module hw5 =
         timer.Start()
         let res = f()
         let time = timer.ElapsedMilliseconds
-        res,time
+        res, time
 
-    let perfTestsForLists (perfConfig: PerfConfig) sortFun sycles file =
+    let perfTests (perfConfig: PerfConfig) sortFun sycles file f =
         let steps = [perfConfig.From .. perfConfig.Step .. perfConfig.To]
         let timings = Array.zeroCreate steps.Length
         let mutable j = 0
         for i in steps do
-            let lst = genRandomList i
+            let strg = f i
             let times = Array.zeroCreate sycles
             for j in 0 .. sycles - 1 do
                 if perfConfig.ForceGC then GC.Collect()
-                let res, time = time (fun _ -> sortFun lst)
+                let res, time = time (fun _ -> sortFun strg)
                 if perfConfig.ForceGC then GC.Collect()
                 times.[j] <- string time
                 printfn "Measured: len = %A, iteration = %A, time = %A" i j time
@@ -42,19 +42,3 @@ module hw5 =
             j <- j + 1
         System.IO.File.WriteAllLines (file, timings)
 
-    let perfTestsForArrays (perfConfig: PerfConfig) sortFun sycles file =
-        let steps = [perfConfig.From .. perfConfig.Step .. perfConfig.To]
-        let timings = Array.zeroCreate steps.Length
-        let mutable j = 0
-        for i in steps do
-            let lst = genRandomArray i
-            let times = Array.zeroCreate sycles
-            for j in 0 .. sycles - 1 do
-                if perfConfig.ForceGC then GC.Collect()
-                let res, time = time (fun _ -> sortFun lst)
-                if perfConfig.ForceGC then GC.Collect()
-                times.[j] <- string time
-                printfn "Measured: len = %A, iteration = %A, time = %A" i j time
-            timings.[j] <- (string i) + ","  + (String.concat ", " times)
-            j <- j + 1
-        System.IO.File.WriteAllLines (file, timings)

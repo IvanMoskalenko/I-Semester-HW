@@ -22,14 +22,15 @@ module hw4 =
     let writeList file list = System.IO.File.WriteAllLines ((file), arrayOfIntIntoArrayOfStrings (List.toArray list))
 
     let arrayBubbleSort (arrayForSort: int array) =
-        for i = 0 to arrayForSort.Length - 1 do
-            for j = i + 1 to arrayForSort.Length - 1 do
-                if arrayForSort.[i] > arrayForSort.[j]
+        let res = Array.copy arrayForSort
+        for i = 0 to res.Length - 1 do
+            for j = i + 1 to res.Length - 1 do
+                if res.[i] > res.[j]
                 then
-                    let x = arrayForSort.[i]
-                    arrayForSort.[i] <- arrayForSort.[j]
-                    arrayForSort.[j] <- x
-        arrayForSort
+                    let x = res.[i]
+                    res.[i] <- res.[j]
+                    res.[j] <- x
+        res
 
     let listBubbleSort (list: list<int>) =
         let mutable k = 0
@@ -97,14 +98,15 @@ module hw4 =
                     swap arr lowIndex i
             swap arr (lowIndex + 1) high
             lowIndex + 1
-        let rec _go (arr: array<int>) low high =
+        let rec _go (x: array<int>) low high =
             if low < high
             then
-                let partIndex = partition arr low high
-                if partIndex > 1 then _go arr low (partIndex - 1)
-                if (partIndex + 1) < high then _go arr (partIndex + 1) high
-        _go arr 0 (arr.Length - 1)
-        arr
+                let partIndex = partition x low high
+                if partIndex > 1 then _go x low (partIndex - 1)
+                if (partIndex + 1) < high then _go x (partIndex + 1) high
+        let res = Array.copy arr
+        _go res 0 (arr.Length - 1)
+        res
 
     let pack32bitInto64 (x: int32, y: int32) =
         if y >= 0
