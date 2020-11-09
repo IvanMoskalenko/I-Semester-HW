@@ -39,18 +39,12 @@ module Main =
         (*
         measurements configGC List.sort "ListSort_release_GC.csv" hw5.genRandomList hw5.genRandomArray
         measurements configGC hw4.listQuickSort "ListQuickSort_release_GC.csv" hw5.genRandomList
+        measurements configGCForBubble hw4.listBubbleSort "ListBubbleSort_release_GC.csv" hw5.genRandomList
 
         measurements configGC Array.sort "ArraySort_release_GC.csv" hw5.genRandomArray
         measurements configGC hw4.arrayQuickSortForExperiments "ArrayQuickSortForExp_release_GC.csv"
         measurements configGC hw4.arrayQuickSort "ArrayQuickSort_release_GC.csv" hw5.genRandomArray
-
-        measurements configGCForBubble hw4.listQuickSort "ListQuickSortForBubble_release_GC.csv" hw5.genRandomList
-        measurements configGCForBubble hw4.listBubbleSort "ListBubbleSort_release_GC.csv" hw5.genRandomList
-        measurements configGCForBubble List.sort "ListSortForBubble_release_GC.csv" hw5.genRandomList
-
-        measurements configGCForBubbleArray hw4.arrayQuickSort "ArrayQuickSortForBubble_release_GC.csv" hw5.genRandomArray
         measurements configGCForBubbleArray hw4.arrayBubbleSort "ArrayBubbleSort_release_GC.csv" hw5.genRandomArray
-        measurements configGCForBubbleArray Array.sort "ArraySortForBubble_release_GC.csv" hw5.genRandomArray
         *)
 
         0

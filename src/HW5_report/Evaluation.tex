@@ -1,0 +1,136 @@
+\section{Эксперементальное исследование}
+
+Замеры производительности производились на ноутбуке под управлением операционной системы Fedora 33, с 16Гб оперативной памяти и процессором AMD Ryzen 7 4800H, 2.90GHz.  
+
+В экспериментах использовались случайные списки и массивы, сгенерированные с использованием стандартного генератора случайных чисел \verb|System.Random|.
+В качестве значений использовались 32-битные целые числа.
+
+Эксперимент поставлен следующим образом. 
+Для каждого значения длины 2 раз выполняются следующие шаги:
+\begin{enumerate}
+  \item Генерируется случайный список или массив заданной длины
+  \item Сгенерированный список или массив сортируется с использованием различных функций, при этом замеряется время, затраченное на сортировку 
+\end{enumerate}
+
+Полученные результаты записываются в файл.
+Использован стандартный violin plot с указанием медианного значения времени для каждой длины.
+
+Сначала мы провели сравнение всех тестируемых нами функций со сборкой мусора и без.~\ref{fig:GCvsNoGC}
+Затем мы провели сравнение всех тестируемых нами функций в различных режимах конфигурации (Debug, Release).~\ref{fig:DebugVSRelease}
+Наконец, мы сравнили функции между собой (\verb|qSort| vs \verb|System sort|, \verb|bSort| vs \verb|qSort| vs \verb|System sort|, а также Not optimized \verb|qSort Array| vs \verb|qSort Array|)~\ref{fig:SortsComparison}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ListSortGCvsNoGC.pdf}
+	   \label{fig:list.sortGCvsNoGC}
+	\end{subfigure}~
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ListQSortGCvsNoGC.pdf}
+	   \label{fig:list.qsortGCvsNoGC}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ListBubbleSortGCvsNoGC.pdf}
+	   \label{fig:list.bsortGCvsNoGC}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ArraySortGCvsNoGC.pdf}
+	   \label{fig:Array.sortGCvsNoGC}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ArrayQSortGCvsNoGC.pdf}
+	   \label{fig:Array.qsortGCvsNoGC}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ArrayQSortForExpGCvsNoGC.pdf}
+	   \label{fig:Array.qsortexpGCvsNoGC}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ArrayBubbleSortGCvsNoGC.pdf}
+	   \label{fig:Array.bsortGCvsNoGC}
+	\end{subfigure}
+	\caption{Сравнение производительности разных сортировок со сборкой мусора и без}
+	\label{fig:GCvsNoGC}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ListSortDebugVSRelease.pdf}
+	   \label{fig:ListSortDebugVSRelease}
+	\end{subfigure}~
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ListQSortDebugVSRelease.pdf}
+	   \label{fig:ListQSortDebugVSRelease}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ListBubbleDebugVSRelease.pdf}
+	   \label{fig:ListBubbleDebugVSRelease}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ArraySortDebugVSRelease.pdf}
+	   \label{fig:ArraySortDebugVSRelease}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ArrayQSortDebugVSRelease.pdf}
+	   \label{fig:ArrayQSortDebugVSRelease}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ArrayQSortForExpDebugVSRelease.pdf}
+	   \label{fig:ArrayQSortForExpDebugVSRelease}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ArrayBubbleSortDebugVSRelease.pdf}
+	   \label{fig:ArrayBubbleSortDebugVSRelease}
+	\end{subfigure}
+	\caption{Сравнение производительности разных сортировок в различных режимах конфигурации}
+	\label{fig:DebugVSRelease}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ListSortsComparison.pdf}
+	   \label{fig:"ListSortsComparison}
+	\end{subfigure}~
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ArraySortsComparison.pdf}
+	   \label{fig:ArraySortsComparison}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ArrayQuickSortVSNotOptimizedQSort.pdf}
+	   \label{fig:ArrayQuickSortVSNotOptimizedQSort.pdf}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ListSortsComparisonSystemVSQSort.pdf}
+	   \label{fig:ListSortsComparisonSystemVSQSort}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ArraySortsComparisonSystemVSQSort.pdf}
+	   \label{fig:ArraySortsComparisonSystemVSQSort}
+	\end{subfigure}
+	\caption{Сравнение производительности разных сортировок между собой}
+	\label{fig:SortsComparison}	
+\end{figure}
+
+
+
