@@ -14,7 +14,7 @@ do ()
 
 module internal AssemblyVersionInformation =
     let [<Literal>] AssemblyTitle = "HW6.Tests"
-    let [<Literal>] AssemblyProduct = "HW6
+    let [<Literal>] AssemblyProduct = "HW6"
     let [<Literal>] AssemblyVersion = "0.1.0"
     let [<Literal>] AssemblyMetadata_ReleaseDate = "2017-03-17T00:00:00.0000000"
     let [<Literal>] AssemblyFileVersion = "0.1.0"
