@@ -19,10 +19,10 @@ module hw6 =
         let array = Array.zeroCreate (rowsNum * colNum)
         let mutable k = 0
         for i = 0 to rowsNum - 1 do
+            if inputArray.[i].Length <> colNum then failwith "Matrix has incorrect format"
             let pow = inputArray.[i]
             for j = 0 to colNum - 1 do
-                if inputArray.[i].Length <> colNum then failwith "Matrix has incorrect format"
-                elif pow.[j] <> '0' && pow.[j] <> '1' then failwith "Matrix has incorrect format"
+                if pow.[j] <> '0' && pow.[j] <> '1' then failwith "Matrix has incorrect format"
                 else
                         array.[k] <- (pow.[j], (I(i * 1<_rows>, j * 1<_column>)))
                         k <- k + 1
@@ -41,17 +41,23 @@ module hw6 =
                     for k = 0 to matrix1.N - 1 do
                         let is x = x = (I(i * 1<_rows>, k * 1<_column>))
                         let is2 x = x = (I(k * 1<_rows>, j * 1<_column>))
+                        let a = (1, (I(i * 1<_rows>, j * 1<_column>)))
+                        let b = (0, (I(i * 1<_rows>, j * 1<_column>)))
                         match List.tryFind is matrix1.boolMatrix with
                         | Some value ->
                             match List.tryFind is2 matrix2.boolMatrix with
                             | Some value ->
-                                array.[r] <- (1, (I(i * 1<_rows>, j * 1<_column>)))
-                                r <- r + 1
-                            | None -> array.[r] <- (0, (I(i * 1<_rows>, j * 1<_column>)))
-                        | None -> array.[r] <- (0, (I(i * 1<_rows>, j * 1<_column>)))
-                    if r > 0
-                    then if array.[r] = (0, (I(i * 1<_rows>, j * 1<_column>))) && array.[r - 1] <> (1, (I(i * 1<_rows>, j * 1<_column>))) then r <- r + 1
-                    else r <- r + 1
+                                if r > 0 && array.[r - 1] <> a
+                                then array.[r] <- a; r <- r + 1
+                                elif r = 0 then array.[r] <- a; r <- r + 1
+                            | None ->
+                                array.[r] <- b
+                                if r > 0 && k = matrix1.N - 1 && array.[r - 1] <> a then r <- r + 1
+                                elif r = 0 && k = matrix1.N - 1 then r <- r + 1
+                        | None ->
+                         array.[r] <- b
+                         if r > 0 && k = matrix1.N - 1 && array.[r - 1] <> a then r <- r + 1
+                         elif r = 0 && k = matrix1.N - 1 then r <- r + 1
             let list = Array.toList array
             let resList = List.filter (fun x -> (fst x) = 1) list |> List.map (fun x -> snd x)
             let matrix = Matrix (matrix1.M, matrix2.N, resList)
