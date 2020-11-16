@@ -21,5 +21,8 @@
     <Compile Include="hw6.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HW4\HW4.fsproj" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
