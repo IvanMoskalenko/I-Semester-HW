@@ -1,6 +1,6 @@
-namespace HW6
 module Main =
     open System
+    open hw6
 
     [<EntryPoint>]
     let main (argv: string array) =
@@ -9,6 +9,7 @@ module Main =
         let inputPath2 = Console.ReadLine()
         printfn "Enter output path: "
         let outputPath = Console.ReadLine()
-        hw6.writeMatrix inputPath inputPath2 outputPath
+        let result = multiplyInputMatrices inputPath inputPath2
+        writeMatrix result outputPath
         0
 

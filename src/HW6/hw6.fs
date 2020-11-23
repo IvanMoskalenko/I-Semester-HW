@@ -1,6 +1,4 @@
-namespace HW6
-
-module hw6 =
+module hw6
 
     [<Measure>] type _rows
     [<Measure>] type _column
@@ -45,12 +43,12 @@ module hw6 =
             let lst =
                 [ for i in matrix1.data do
                     for j in matrix2.data do
-                        if int (i.Y) = int (j.X) then Coordinates(i.X, j.Y) ]
+                        if int i.Y = int j.X then Coordinates(i.X, j.Y) ]
                 |> List.distinct
             let matrix = Matrix (matrix1.numOfRows, matrix2.numOfCols, lst)
             matrix
 
-    let ourMatrixToArrayOfStrings (matrix: Matrix) =
+    let boolSparseMatrixToArrayOfStrings (matrix: Matrix) =
         let matrixArray = Array.zeroCreate matrix.numOfRows
         for i = 0 to matrix.numOfRows - 1 do
             for j = 0 to matrix.numOfCols - 1 do
@@ -60,10 +58,13 @@ module hw6 =
                 | None -> matrixArray.[i] <- matrixArray.[i] + "0 "
         matrixArray
 
-    let writeMatrix inputPath inputPath2 outputPath =
+    let multiplyInputMatrices inputPath inputPath2 =
         let matrix1 = readMatrix inputPath
         let matrix2 = readMatrix inputPath2
-        System.IO.File.WriteAllLines ((outputPath), ourMatrixToArrayOfStrings (multiplyMatrix matrix1 matrix2))
+        multiplyMatrix matrix1 matrix2
+
+    let writeMatrix (matrix: Matrix) outputPath =
+        System.IO.File.WriteAllLines ((outputPath), boolSparseMatrixToArrayOfStrings matrix)
 
 
 
