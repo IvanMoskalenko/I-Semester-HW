@@ -45,6 +45,6 @@ let maxElemMyTree x =
                     then _go1 (_go acc t) k
                     else _go1 (_go y t) k
             _go1 hd tl
-    _go -2147483648 x
+    _go System.Int32.MinValue x
 
 
