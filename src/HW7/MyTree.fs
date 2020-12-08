@@ -5,46 +5,35 @@ type MyTree<'t> =
     | Leaf of 't
     | Node of 't * MyList<MyTree<'t>>
 
-let rec countNodesAndLeaves x =
+let rec walk x f f1 f2 _goStart =
     let rec _go acc x =
         match x with
-        | Leaf _ -> acc + 1
-        | Node (_, tl) ->
-            let rec _go1 acc2 tl =
-                match tl with
-                | Base t -> _go acc t + acc2
-                | Cons (hd, tl) -> _go1 (acc2 + _go acc hd) tl
-            _go1 1 tl
-    _go 0 x
-
-let averageMyTree x =
-    let rec _go acc x =
-        match x with
-        | Leaf t -> acc + t
+        | Leaf y1 -> f acc y1
         | Node (hd, tl) ->
             let rec _go1 acc1 tl =
                 match tl with
-                | Base t -> _go acc t + acc1
-                | Cons (hd, tl) -> _go1 (acc1 + _go acc hd)  tl
-            _go1 hd tl
-    _go 0 x / countNodesAndLeaves x
+                | Base t -> _go (f2 acc acc1) t + f1 acc1
+                | Cons (hd, tl) -> _go1 (f1 acc1 + _go (f2 acc acc1) hd) tl
+            _go1 (f _goStart hd) tl
+    _go _goStart x
 
-let maxElemMyTree x =
-    let rec _go acc x =
-        match x with
-        | Leaf t -> if acc > t then acc else t
-        | Node (hd, tl) ->
-            let rec _go1 y tl =
-                match tl with
-                | Base t ->
-                    if acc > y
-                    then _go acc t
-                    else _go y t
-                | Cons (t, k) ->
-                    if acc > y
-                    then _go1 (_go acc t) k
-                    else _go1 (_go y t) k
-            _go1 hd tl
-    _go System.Int32.MinValue x
+let rec countNodesAndLeaves x =
+    let f acc _ = acc + 1
+    let f1 acc1 = acc1
+    let f2 acc _ = acc
+    let _goStart = 0
+    walk x f f1 f2 _goStart
 
+let average x =
+    let f acc y1 = acc + y1
+    let f1 acc1 = acc1
+    let f2 acc _ = acc
+    let _goStart = 0
+    walk x f f1 f2 _goStart / countNodesAndLeaves x
 
+let max x =
+    let f acc y1 = if y1 > acc then y1 else acc
+    let f1 _ = 0
+    let f2 _ acc1 = acc1
+    let _goStart = System.Int32.MinValue
+    walk x f f1 f2 _goStart
