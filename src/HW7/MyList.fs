@@ -4,12 +4,13 @@ type MyList<'t> =
     | Base of 't
     | Cons of 't * MyList<'t>
 
+let rec fold folder acc lst  =
+    match lst with
+    | Base x -> folder acc x
+    | Cons (x, tail) -> fold folder (folder acc x) tail
+
 let length lst =
-    let rec _go lst acc =
-        match lst with
-        | Base _ -> acc + 1
-        | Cons (_, tl) -> _go tl (acc + 1)
-    _go lst 0
+    fold (fun i _ -> i + 1) 0 lst
 
 let rec iter f lst =
     match lst with

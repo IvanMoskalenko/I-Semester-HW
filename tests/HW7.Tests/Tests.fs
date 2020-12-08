@@ -13,6 +13,10 @@ let genRandomList count =
 let propTestsForMyList =
     testList "Property tests for myList"
         [
+            testProperty "Fold test" <| fun x ->
+                let lst = genRandomList x |> List.map (fun y -> string y)
+                let str = List.fold (fun w z -> w + z) "" lst
+                Expect.sequenceEqual (lst |> toMyList |> myList.fold (fun w z -> w + z) "") str ""
             testProperty "Length test" <| fun x ->
                 let lst = genRandomList x
                 Expect.equal (List.length lst) (lst |> toMyList |> length) ""
@@ -87,16 +91,13 @@ let MyTreeTests =
     testList "MyTreeTests"
         [
             testCase "average myTree" <| fun _ ->
-                Expect.equal (average (Node ((14), Cons ((Leaf (16)), Base (Leaf (18)))))) 16 "48 / 3 = 16"
+                Expect.equal (average (Node ((14), Cons ((Leaf (16)), Base (Leaf (18)))))) 16.0 "48 / 3 = 16"
             testCase "average myTree second" <| fun _ ->
-                Expect.equal (average (Node ((10), Cons ((Leaf (12)), Base (Leaf (11)))))) 11 "33 / 3 = 11"
+                Expect.equal (average (Node ((10), Cons ((Leaf (12)), Base (Leaf (11)))))) 11.0 "33 / 3 = 11"
 
             testCase "maxElem myTree" <| fun _ ->
                 Expect.equal (max (Node ((189), Cons ((Leaf (228)), Base (Leaf (189)))))) 228 ""
             testCase "maxElem myTree second" <| fun _ ->
                 Expect.equal (max (Node ((-15), Cons ((Leaf (-1)), Base (Leaf (-10)))))) -1 ""
-
-            testCase "Count nodes and leaves myTree" <| fun _ ->
-                Expect.equal (countNodesAndLeaves (Node ((144), Cons ((Leaf (228)), Base (Leaf (11)))))) 3 ""
         ]
 
