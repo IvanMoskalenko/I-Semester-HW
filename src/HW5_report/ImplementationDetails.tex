@@ -1,8 +1,15 @@
 \section{Детали реализации}
 
-Для сравнения со стандартными сортировками на языке программирования F\# были реализованы \verb|qSort| (в двойном количестве для массива) и \verb|bSort| для типов \verb|List| и \verb|Array|. 
-Код сортировок приведён в листингах~\ref{lst:qSortList}~\ref{lst:bSortList}~\ref{lst:qSortArray}~\ref{lst:bSortArray}~\ref{lst:qSortArrayExp}.
-
+Для сравнения со стандартными сортировками на языке программирования F\# были реализованы три варианта \verb|qSort| для массива, один вариант \verb|qSort| для \verb|List|, а также \verb|bSort| для типов \verb|List| и \verb|Array|. 
+Код сортировок приведён в нижеперечисленных листингах.
+\begin{enumerate}
+  \item \verb|qSort| для листа~\ref{lst:qSortList} 
+  \item \verb|bSort| для листа~\ref{lst:bSortList}
+  \item \verb|qSort| для массива~\ref{lst:qSortArray}
+  \item \verb|bSort| для массива~\ref{lst:bSortArray} 
+  \item \verb|qSortArray| с созданием дополнительных массивов~\ref{lst:qSortArrayExp}
+  \item \verb|qSortArray| без \verb|Array.copy|~\ref{lst:qSortArrayExp2}
+\end{enumerate}
 
 \begin{algorithm}[H]
 \floatname{algorithm}{Listing}
@@ -10,25 +17,25 @@
 \label{lst:qSortList}
 \begin{verbatim}
 let listQuickSort list =
-        let split opCompare list =
-            let rec go lst part1 part2 =
-                match lst with
-                | [] -> part1, part2
-                | hd :: tl ->
-                    if opCompare hd
-                    then go tl (hd :: part1) part2
-                    else go tl part1 (hd :: part2)
-            go list [] []
-
-        let rec _go lst =
+    let split opCompare list =
+        let rec go lst part1 part2 =
             match lst with
-            | [] -> []
-            | [x] -> [x]
+            | [] -> part1, part2
             | hd :: tl ->
-                let left, right = split ((>) hd) tl
-                (_go left) @ hd :: (_go right)
+                if opCompare hd
+                then go tl (hd :: part1) part2
+                else go tl part1 (hd :: part2)
+        go list [] []
 
-        _go list
+    let rec _go lst =
+        match lst with
+        | [] -> []
+        | [x] -> [x]
+        | hd :: tl ->
+            let left, right = split ((>) hd) tl
+            (_go left) @ hd :: (_go right)
+
+    _go list
 \end{verbatim}
 \end{algorithm}
 \begin{algorithm}[H]
@@ -37,24 +44,24 @@ let listQuickSort list =
 \label{lst:bSortList}
 \begin{verbatim}
 let listBubbleSort (list: list<int>) =
-        let mutable k = 0
-        let rec _go (list: list<int>) =
-            let res =
-                match list with
-                | [] -> []
-                | x :: y :: tail ->
-                    if x > y
-                    then
-                        y :: (_go (x :: tail))
-                    else
-                        x :: (_go (y :: tail))
-                | x :: tail -> [x]
-            if k < list.Length
-            then
-                k <- k + 1
-                _go res
-            else res
-        _go list
+    let mutable k = 0
+    let rec _go (list: list<int>) =
+        let res =
+            match list with
+            | [] -> []
+            | x :: y :: tail ->
+                if x > y
+                then
+                    y :: (_go (x :: tail))
+                else
+                    x :: (_go (y :: tail))
+            | x :: tail -> [x]
+        if k < list.Length
+        then
+            k <- k + 1
+            _go res
+        else res
+    _go list
 \end{verbatim}
 \end{algorithm}
 \begin{algorithm}[H]
@@ -63,29 +70,29 @@ let listBubbleSort (list: list<int>) =
 \label{lst:qSortArray}
 \begin{verbatim}
 let arrayQuickSort (arr: array<int>) =
-        let swap (arr: array<int>) i j =
-            let c = arr.[i]
-            arr.[i] <- arr.[j]
-            arr.[j] <- c
-        let partition (arr: array<int>) low high =
-            let pivot = arr.[high]
-            let mutable lowIndex = low - 1
-            for i = low to (high - 1) do
-                if arr.[i] <= pivot
-                then
-                    lowIndex <- lowIndex + 1
-                    swap arr lowIndex i
-            swap arr (lowIndex + 1) high
-            lowIndex + 1
-        let rec _go (x: array<int>) low high =
-            if low < high
+    let swap (arr: array<int>) i j =
+        let c = arr.[i]
+        arr.[i] <- arr.[j]
+        arr.[j] <- c
+    let partition (arr: array<int>) low high =
+        let pivot = arr.[high]
+        let mutable lowIndex = low - 1
+        for i = low to (high - 1) do
+            if arr.[i] <= pivot
             then
-                let partIndex = partition x low high
-                if partIndex > 1 then _go x low (partIndex - 1)
-                if (partIndex + 1) < high then _go x (partIndex + 1) high
-        let res = Array.copy arr
-        _go res 0 (arr.Length - 1)
-        res
+                lowIndex <- lowIndex + 1
+                swap arr lowIndex i
+        swap arr (lowIndex + 1) high
+        lowIndex + 1
+    let rec _go (x: array<int>) low high =
+        if low < high
+        then
+            let partIndex = partition x low high
+            if partIndex > 1 then _go x low (partIndex - 1)
+            if (partIndex + 1) < high then _go x (partIndex + 1) high
+    let res = Array.copy arr
+    _go res 0 (arr.Length - 1)
+    res
 \end{verbatim}
 \end{algorithm}
 \begin{algorithm}[H]
@@ -94,28 +101,61 @@ let arrayQuickSort (arr: array<int>) =
 \label{lst:bSortArray}
 \begin{verbatim}
 let arrayBubbleSort (arrayForSort: int array) =
-        let res = Array.copy arrayForSort
-        for i = 0 to res.Length - 1 do
-            for j = i + 1 to res.Length - 1 do
-                if res.[i] > res.[j]
-                then
-                    let x = res.[i]
-                    res.[i] <- res.[j]
-                    res.[j] <- x
-        res
+    let res = Array.copy arrayForSort
+    for i = 0 to res.Length - 1 do
+        for j = i + 1 to res.Length - 1 do
+            if res.[i] > res.[j]
+            then
+                let x = res.[i]
+                res.[i] <- res.[j]
+                res.[j] <- x
+    res
 \end{verbatim}
 \end{algorithm}
 \begin{algorithm}[H]
 \floatname{algorithm}{Listing}
-\caption{qSort на языке программирования F\# для массива, агрессивно использующий память}
+\caption{qSort на языке программирования F\# для массива, создающий дополнительные массивы}
 \label{lst:qSortArrayExp}
 \begin{verbatim}
 let rec quickSortArrayForExperiments = function
-        | [||] -> [||]
-        | x when x.Length < 2 -> x
-        | x ->
-        let left, (right, pivot) = Array.partition (fun i -> i < x.[0]) x |> (fun (left, right) -> left, right |> Array.partition (fun n -> n <> x.[0]))
-        Array.append (Array.append (left |> quickSortArrayForExperiments ) pivot) (right |> quickSortArrayForExperiments )
+    | [||] -> [||]
+    | x when x.Length < 2 -> x
+    | x ->
+    let left, (right, pivot) = Array.partition (fun i -> i < x.[0]) x |> (fun (left, right) -> left, right |> Array.partition (fun n -> n <> x.[0]))
+    Array.append (Array.append (left |> quickSortArrayForExperiments ) pivot) (right |> quickSortArrayForExperiments )
+\end{verbatim}
+\end{algorithm}
+\begin{algorithm}[H]
+\floatname{algorithm}{Listing}
+\caption{qSort на языке программирования F\# для массива, не использующий Array.copy}
+\label{lst:qSortArrayExp2}
+\begin{verbatim}
+let arrayQuickSortForExp2 (arr: array<int>) =
+    let swap (arr: array<int>) i j =
+        let c = arr.[i]
+        arr.[i] <- arr.[j]
+        arr.[j] <- c
+
+    let partition (arr: array<int>) low high =
+        let pivot = arr.[high]
+        let mutable lowIndex = low - 1
+
+        for i = low to (high - 1) do
+            if arr.[i] <= pivot then
+                lowIndex <- lowIndex + 1
+                swap arr lowIndex i
+
+        swap arr (lowIndex + 1) high
+        lowIndex + 1
+
+    let rec _go (x: array<int>) low high =
+        if low < high then
+            let partIndex = partition x low high
+            if partIndex > 1 then _go x low (partIndex - 1)
+            if (partIndex + 1) < high then _go x (partIndex + 1) high
+    _go arr 0 (arr.Length - 1)
+
+    arr
 \end{verbatim}
 \end{algorithm}
 

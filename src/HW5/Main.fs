@@ -10,6 +10,7 @@ module Main =
         let configGCForBubble = new hw5.PerfConfig (100, 50, 3000, true)
         let configNoGCForBubbleArray = new hw5.PerfConfig (1000, 500, 50 * 1000, false)
         let configGCForBubbleArray = new hw5.PerfConfig (1000, 500, 50 * 1000, true)
+        let configGCForExp = new hw5.PerfConfig (100, 250, 10 * 1000, true)
 
         let measurements config sortFunc path generate =
             hw5.perfTests config sortFunc 25 path generate
@@ -21,7 +22,6 @@ module Main =
 
         measurements configNoGC Array.sort "ArraySort_debug_noGC.csv" hw5.genRandomArray
         measurements configGC Array.sort "ArraySort_debug_GC.csv" hw5.genRandomArray
-        measurements configNoGC hw4.arrayQuickSortForExperiments "ArrayQuickSortForExp_debug_noGC.csv" hw5.genRandomArray
         measurements configGC hw4.arrayQuickSortForExperiments "ArrayQuickSortForExp_debug_GC.csv" hw5.genRandomArray
         measurements configNoGC hw4.arrayQuickSort "ArrayQuickSort_debug_noGC.csv" hw5.genRandomArray
         measurements configGC hw4.arrayQuickSort "ArrayQuickSort_debug_GC.csv" hw5.genRandomArray
@@ -35,16 +35,18 @@ module Main =
         measurements configGCForBubbleArray hw4.arrayBubbleSort "ArrayBubbleSort_debug_GC.csv" hw5.genRandomArray
         measurements configNoGCForBubbleArray hw4.arrayBubbleSort "ArrayBubbleSort_debug_noGC.csv" hw5.genRandomArray
         measurements configGCForBubbleArray Array.sort "ArraySortForBubble_debug_GC.csv" hw5.genRandomArray
-        *)
+
 
         measurements configGC List.sort "ListSort_release_GC.csv" hw5.genRandomList
         measurements configGC hw4.listQuickSort "ListQuickSort_release_GC.csv" hw5.genRandomList
         measurements configGCForBubble hw4.listBubbleSort "ListBubbleSort_release_GC.csv" hw5.genRandomList
 
         measurements configGC Array.sort "ArraySort_release_GC.csv" hw5.genRandomArray
-        measurements configGC hw4.arrayQuickSortForExperiments "ArrayQuickSortForExp_release_GC.csv" hw5.genRandomArray
         measurements configGC hw4.arrayQuickSort "ArrayQuickSort_release_GC.csv" hw5.genRandomArray
-        measurements configGCForBubbleArray hw4.arrayBubbleSort "ArrayBubbleSort_release_GC.csv" hw5.genRandomArray
+        measurements configGCForBubbleArray hw4.arrayBubbleSort "ArrayBubbleSort_release_GC.csv" hw5.genRandomArray*)
+
+        measurements configGCForExp hw4.arrayQuickSort "ArrayQuickSortForCompWithExp2_debug_GC.csv" hw5.genRandomArray
+        measurements configGCForExp hw4.arrayQuickSortForExp2 "ArrayQuickSortForExp2_debug_GC.csv" hw5.genRandomArray
 
         0
 

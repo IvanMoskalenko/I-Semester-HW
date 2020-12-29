@@ -1,4 +1,4 @@
-\section{Эксперементальное исследование}
+\section{Экспериментальное исследование}
 
 Замеры производительности производились на ноутбуке под управлением операционной системы Fedora 33, с 16Гб оперативной памяти и процессором AMD Ryzen 7 4800H, 2.90GHz.  
 
@@ -6,18 +6,33 @@
 В качестве значений использовались 32-битные целые числа.
 
 Эксперимент поставлен следующим образом. 
-Для каждого значения длины 2 раз выполняются следующие шаги:
+Для каждого значения длины 25 раз выполняются шаги, перечисленные ниже.
 \begin{enumerate}
-  \item Генерируется случайный список или массив заданной длины
-  \item Сгенерированный список или массив сортируется с использованием различных функций, при этом замеряется время, затраченное на сортировку 
+  \item Генерируется случайный список или массив заданной длины.
+  \item Сгенерированный список или массив сортируется с использованием различных функций, при этом замеряется время, затраченное на сортировку.
 \end{enumerate}
 
 Полученные результаты записываются в файл.
 Использован стандартный violin plot с указанием медианного значения времени для каждой длины.
 
-Сначала мы провели сравнение всех тестируемых нами функций со сборкой мусора и без.~\ref{fig:GCvsNoGC}
-Затем мы провели сравнение всех тестируемых нами функций в различных режимах конфигурации (Debug, Release).~\ref{fig:DebugVSRelease}
-Наконец, мы сравнили функции между собой (\verb|qSort| vs \verb|System sort|, \verb|bSort| vs \verb|qSort| vs \verb|System sort|, а также Not optimized \verb|qSort Array| vs \verb|qSort Array|)~\ref{fig:SortsComparison}
+Сначала мы провели сравнение всех тестируемых нами функций (кроме двух дополнительных вариаций \verb|qSort| для массива) со сборкой мусора и без~\ref{fig:GCvsNoGC} и выявили следующие закономерности.
+\begin{enumerate}
+  \item qSort~\subref{fig:list.qsortGCvsNoGC} и bSort~\subref{fig:list.bsortGCvsNoGC} для листа, а также qSort~\subref{fig:Array.qsortGCvsNoGC}, bSort~\subref{fig:Array.bsortGCvsNoGC} и System sort~\subref{fig:Array.sortGCvsNoGC} для массива ведут себя практически одинаково как со сборкой мусора, так и без неё.
+  \item List.sort без сборки мусора, очевидно, работает медленнее~\subref{fig:list.sortGCvsNoGC}. Точное сравнение будет предоставлено в заключительной части доклада.   
+\end{enumerate}
+Затем мы провели сравнение всех тестируемых нами функций (кроме двух дополнительных вариаций \verb|qSort| для массива) в различных режимах сборки (Debug, Release)~\ref{fig:DebugVSRelease} и пришли к следующим выводам.
+\begin{enumerate}
+  \item Array.sort~\subref{fig:ArraySortDebugVSRelease} работает с одинаковой скоростью в различных режимах сборки.
+  \item qSort~\subref{fig:ListQSortDebugVSRelease}, System sort~\subref{fig:ListSortDebugVSRelease} и bSort~\subref{fig:ListBubbleDebugVSRelease} для листа, а также qSort~\subref{fig:ArrayQSortDebugVSRelease} и bSort~\subref{fig:ArrayBubbleSortDebugVSRelease} для массива работают с разной скоростью. Во всех этих случаях результаты вычислялись быстрее в режиме сборки Release. Позже мы выясним, во сколько раз та или иная сортировка быстрее в режиме сборки Release.
+\end{enumerate}
+Потом мы провели нижеперечисленные действия.
+\begin{enumerate}
+  \item Сравнили \verb|qSort| с \verb|System sort| для массива~\subref{fig:ArraySortsComparisonSystemVSQSort}. Пришли к выводу, что системная сортировка быстрее.
+  \item Сравнили \verb|qSort| с \verb|System sort| для листа~\subref{fig:ListSortsComparisonSystemVSQSort}. Пришли к выводу, что системная сортировка быстрее.
+  \item Сравнили \verb|bSort| с \verb|qSort| и с \verb|System sort| для массива~\subref{fig:ArraySortsComparison}. Пришли к выводу, что сортировка ''пузырьком'' медленнее других.
+  \item Сравнили \verb|bSort| с \verb|qSort| и с \verb|System sort| для листа~\subref{fig:ListSortsComparison}. Ситуация аналогична предыдущему пункту.
+  \item Наконец, мы сравнили вариацию \verb|qSort| для массива с его первой неоптимизированной версией, которая создаёт дополнительные массивы во время своей работы~\subref{fig:ArrayQuickSortVSNotOptimizedQSort} и со второй~\subref{fig:ArraySortsComparisonSystemVSQSort}. Пришли к ожидаемому выводу: неоптимизированные версии медленнее. Подводя итоги, мы выясним причины такого поведения.
+\end{enumerate}
 
 \begin{figure}[H]
 	\centering
@@ -25,7 +40,7 @@
        \centering
 	   \includegraphics[width=0.99\textwidth]{data/ListSortGCvsNoGC.pdf}
 	   \label{fig:list.sortGCvsNoGC}
-	\end{subfigure}~
+	\end{subfigure}
 	\begin{subfigure}[b]{0.40\textwidth}
        \centering
 	   \includegraphics[width=0.99\textwidth]{data/ListQSortGCvsNoGC.pdf}
@@ -48,11 +63,6 @@
 	\end{subfigure}
 	\begin{subfigure}[b]{0.40\textwidth}
        \centering
-	   \includegraphics[width=0.99\textwidth]{data/ArrayQSortForExpGCvsNoGC.pdf}
-	   \label{fig:Array.qsortexpGCvsNoGC}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.40\textwidth}
-       \centering
 	   \includegraphics[width=0.99\textwidth]{data/ArrayBubbleSortGCvsNoGC.pdf}
 	   \label{fig:Array.bsortGCvsNoGC}
 	\end{subfigure}
@@ -66,7 +76,7 @@
        \centering
 	   \includegraphics[width=0.99\textwidth]{data/ListSortDebugVSRelease.pdf}
 	   \label{fig:ListSortDebugVSRelease}
-	\end{subfigure}~
+	\end{subfigure}
 	\begin{subfigure}[b]{0.40\textwidth}
        \centering
 	   \includegraphics[width=0.99\textwidth]{data/ListQSortDebugVSRelease.pdf}
@@ -89,11 +99,6 @@
 	\end{subfigure}
 	\begin{subfigure}[b]{0.40\textwidth}
        \centering
-	   \includegraphics[width=0.99\textwidth]{data/ArrayQSortForExpDebugVSRelease.pdf}
-	   \label{fig:ArrayQSortForExpDebugVSRelease}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.40\textwidth}
-       \centering
 	   \includegraphics[width=0.99\textwidth]{data/ArrayBubbleSortDebugVSRelease.pdf}
 	   \label{fig:ArrayBubbleSortDebugVSRelease}
 	\end{subfigure}
@@ -106,8 +111,8 @@
 	\begin{subfigure}[b]{0.40\textwidth}
        \centering
 	   \includegraphics[width=0.99\textwidth]{data/ListSortsComparison.pdf}
-	   \label{fig:"ListSortsComparison}
-	\end{subfigure}~
+	   \label{fig:ListSortsComparison}
+	\end{subfigure}
 	\begin{subfigure}[b]{0.40\textwidth}
        \centering
 	   \includegraphics[width=0.99\textwidth]{data/ArraySortsComparison.pdf}
@@ -116,7 +121,7 @@
 	\begin{subfigure}[b]{0.40\textwidth}
        \centering
 	   \includegraphics[width=0.99\textwidth]{data/ArrayQuickSortVSNotOptimizedQSort.pdf}
-	   \label{fig:ArrayQuickSortVSNotOptimizedQSort.pdf}
+	   \label{fig:ArrayQuickSortVSNotOptimizedQSort}
 	\end{subfigure}
 	\begin{subfigure}[b]{0.40\textwidth}
        \centering
@@ -126,6 +131,11 @@
 	\begin{subfigure}[b]{0.40\textwidth}
        \centering
 	   \includegraphics[width=0.99\textwidth]{data/ArraySortsComparisonSystemVSQSort.pdf}
+	   \label{fig:ArraySortsComparisonSystemVSQSort}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/ArrayQuickSortVSNotOptimizedQuickSort_2.pdf}
 	   \label{fig:ArraySortsComparisonSystemVSQSort}
 	\end{subfigure}
 	\caption{Сравнение производительности разных сортировок между собой}

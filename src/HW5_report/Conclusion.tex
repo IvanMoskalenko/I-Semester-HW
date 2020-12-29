@@ -1,10 +1,84 @@
 \section{Заключение}
 
-В результате проведённых экспериментов мы выяснили:
+Подведём итоги.
 \begin{enumerate}
-  \item Сортировка со сборкой мусора, в целом, немного быстрее, чем без. Однако разницу заметить довольно трудно (кроме случая со системной сортировкой листа, там всё очевидно)
-  \item В режиме конфигурации Release все алгоритмы работали быстрее, чем в Debug'е. Однако это не касается \verb|Array.sort|, где, кажется, Debug даже немного резвее
-  \item Системная сортировка всегда быстрее \verb|qSort|
-  \item \verb|qSort| намного быстрее \verb|bSort| во всех случаях
-  \item \verb|qSort| с агрессивным выделением памяти серьёзно уступает "правильному" \verb|qSort|'у по производительности
+  \item Сортировки со сборкой мусора и без вели себя примерно одинаково во всех случаях. Исключением является системная сортировка листа. Построим график, чтобы продемонстрировать разницу в скорости. Строить будем так: в обоих случаях возьмём среднее арифметическое 25 итераций для всех протестированных раннее значений длины, а затем вычислим отношение получившихся средних арифметических при одинаковых значениях длины.
+  	\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/kGCvsNOGC.pdf}
+	\end{subfigure}
+	\end{figure}
+  \item \verb|Array.sort| работает с одинаковой скоростью как в режиме сборки Release, так и в Debug'e. Для остальных случаев построим графики, используя алгоритм из прошлого пункта.
+  	\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/debugvsrel1.pdf}
+	   \caption{List.sort Debug/Release}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/debugvsrel2.pdf}
+	   \caption{List qSort Debug/Release}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/debugvsrel3.pdf}
+	   \caption{Array qSort Debug/Release}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/debugvsrel4.pdf}
+	   \caption{Array bSort Debug/Release}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/debugvsrel5.pdf}
+	   \caption{List bSort Debug/Release}
+	\end{subfigure}
+	\end{figure}
+  \item Сравним скорости пузырька и \verb|qSort| для листа и массива.
+  	\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/kqsortvsbsortlist.pdf}
+	   \caption{List bSort/qSort}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/kqsortvsbsortarray.pdf}
+	   \caption{Array bSort/qSort}
+	\end{subfigure}
+	\end{figure}
+  \item Сравним скорости qSort и системной сортировки для листа и массива.
+  	\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/kqsortvsssortlist.pdf}
+	   \caption{List qSort/System sort}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/kqsortvsssortarray.pdf}
+	   \caption{Array qSort/System sort}
+	\end{subfigure}
+	\end{figure}
+  \item В случае сравнения различных вариаций \verb|qSort| для массива нам интересны не только конкретные цифры, но и причины, по которым сортировки работают с разной скоростью. Они довольно легко находятся. Сортировка без \verb|Array.copy| делает так называемую deep copy всего массива каждый раз, когда мы передаём массив как аргумент в рекурсивный вызов этой же функции. В другой вариации \verb|qSort| мы создаём дополнительные массивы с помощью \verb|Array.append|, это и снижает скорость выполнения. Наконец, построим графики аналогично прошлым пунктам.
+  	\begin{figure}[H]
+	\centering
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/karrayexp1.pdf}
+	   \caption{Array qSort/qSort c созданием доп. массивов}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.40\textwidth}
+       \centering
+	   \includegraphics[width=0.99\textwidth]{data/karrayexp2.pdf}
+	   \caption{Array qSort/qSort без Array.copy}
+	\end{subfigure}
+	\end{figure}
 \end{enumerate}
