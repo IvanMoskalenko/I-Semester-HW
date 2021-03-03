@@ -4,6 +4,7 @@ open Expecto
 open HW2_3
 open QTSM
 open hw3
+
 let generateSparseMatrix rows cols =
     let x = Array2D.init rows cols (fun _ _ -> Random().Next(0, 2))
     SparseMatrix (rows, cols,
@@ -53,7 +54,7 @@ let arrayToSparseMatrix (x: int[,]) =
 let tests =
     testList "Tests for QuadTree" [    
         testProperty "Sum" <| fun _ ->
-                    let dim = Random().Next(0, 64)
+                    let dim = Random().Next(0, 32)
                     let sm1 = generateSparseMatrix dim dim
                     let sm2 = generateSparseMatrix dim dim
                     let m1 = genArrayBySparseMatrix sm1
@@ -63,7 +64,7 @@ let tests =
                     Expect.equal sum1 sum2 ""
                     
         testProperty "Mul" <| fun _ ->
-                    let dim = Random().Next(0, 64)
+                    let dim = Random().Next(0, 32)
                     let sm1 = generateSparseMatrix dim dim
                     let sm2 = generateSparseMatrix dim dim
                     let m1 = genArrayBySparseMatrix sm1
@@ -73,7 +74,7 @@ let tests =
                     Expect.equal mul1 mul2 ""
                     
         testProperty "Tensor mul" <| fun _ ->
-                    let dim = Random().Next(0, 64) |> toPowerOf2
+                    let dim = Random().Next(0, 32) |> toPowerOf2
                     let sm1 = generateSparseMatrix dim dim
                     let sm2 = generateSparseMatrix dim dim
                     let m1 = genArrayBySparseMatrix sm1
