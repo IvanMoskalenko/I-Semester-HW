@@ -14,6 +14,7 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="../../src/HW8/HW8.fsproj" />
+        <ProjectReference Include="..\..\src\HW2-3\HW2-3.fsproj" />
     </ItemGroup>
     <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
