@@ -18,12 +18,13 @@ let genArrayBySparseMatrix (matrix: SparseMatrix<int>) =
     output
 
 let standartSum (x: int[,]) (y: int[,]) =
+    let a = Array2D.copy x
     if Array2D.length1 x <> Array2D.length1 y || Array2D.length2 x <> Array2D.length2 y then failwith "Dimensions of matrices should be equal"
     else
         for i in 0 .. Array2D.length1 x - 1 do
             for j in 0 .. Array2D.length2 x - 1 do
-                x.[i, j] <- x.[i, j] + y.[i, j]
-    x
+                a.[i, j] <- a.[i, j] + y.[i, j]
+    a
 
 let standartMultiplyByScalar scalar (x: int[,]) =
     let y = Array2D.copy x
@@ -79,9 +80,6 @@ let tests =
                     let sm2 = generateSparseMatrix dim dim
                     let m1 = genArrayBySparseMatrix sm1
                     let m2 = genArrayBySparseMatrix sm2
-                    printfn "%A" m1
-                    printfn "%A" m2
-                    printfn "%A" (standartTensorMultiply m1 m2)
                     let tmul1 = standartTensorMultiply m1 m2 |> arrayToSparseMatrix |> toTree
                     let tmul2 = tensorMultiply (sm1 |> toTree) (sm2 |> toTree)
                     Expect.equal tmul1 tmul2 ""]
