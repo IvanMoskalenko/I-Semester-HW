@@ -57,7 +57,7 @@ let scalarMultiply x scalar structure =
         | Leaf t -> Leaf (operation scalar t)
         | None -> None
         | Node (NW, NE, SW, SE) -> Node (_go NW, _go NE, _go SW, _go SE)
-    if scalar = neutral then x else _go x
+    if scalar = neutral then None else _go x
     
 let tensorMultiply x y structure =
     if x = None || y = None then None
