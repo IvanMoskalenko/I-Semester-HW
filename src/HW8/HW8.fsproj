@@ -16,6 +16,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="AlgebraicStructures.fs" />
     <None Include="App.config" />
     <Compile Include="QTSM.fs" />
   </ItemGroup>

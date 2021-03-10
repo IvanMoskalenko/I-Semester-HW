@@ -4,6 +4,7 @@ open Expecto
 open HW2_3
 open QTSM
 open hw3
+open AlgebraicStructures
 
 let generateSparseMatrix rows cols =
     let x = Array2D.init rows cols (fun _ _ -> Random().Next(0, 2))
@@ -50,6 +51,9 @@ let arrayToSparseMatrix (x: int[,]) =
             y.[z] <- i, j, x.[i,j]
             z <- z + 1
     SparseMatrix(Array2D.length1 x, Array2D.length2 x, y |> Array.filter (fun x -> (x |> third) <> 0) |> Array.toList)
+    
+let semiring = new Semiring<int>(new Monoid<int>((+), 0), (*))
+let structure = Semiring semiring
 
 [<Tests>]
 let tests =
@@ -61,7 +65,7 @@ let tests =
                     let m1 = genArrayBySparseMatrix sm1
                     let m2 = genArrayBySparseMatrix sm2
                     let sum1 = standartSum m1 m2 |> arrayToSparseMatrix |> toTree
-                    let sum2 = sum (sm1 |> toTree) (sm2 |> toTree)
+                    let sum2 = sum (sm1 |> toTree) (sm2 |> toTree) structure
                     Expect.equal sum1 sum2 ""
                     
         testProperty "Mul" <| fun _ ->
@@ -71,7 +75,7 @@ let tests =
                     let m1 = genArrayBySparseMatrix sm1
                     let m2 = genArrayBySparseMatrix sm2
                     let mul1 = matrixMultiply m1 m2 |> arrayToSparseMatrix |> toTree
-                    let mul2 = multiply (sm1 |> toTree) (sm2 |> toTree)
+                    let mul2 = multiply (sm1 |> toTree) (sm2 |> toTree) structure
                     Expect.equal mul1 mul2 ""
                     
         testProperty "Tensor mul" <| fun _ ->
@@ -81,5 +85,5 @@ let tests =
                     let m1 = genArrayBySparseMatrix sm1
                     let m2 = genArrayBySparseMatrix sm2
                     let tmul1 = standartTensorMultiply m1 m2 |> arrayToSparseMatrix |> toTree
-                    let tmul2 = tensorMultiply (sm1 |> toTree) (sm2 |> toTree)
+                    let tmul2 = tensorMultiply (sm1 |> toTree) (sm2 |> toTree) structure
                     Expect.equal tmul1 tmul2 ""]

@@ -1,4 +1,5 @@
 module QTSM
+open AlgebraicStructures
 
 type QuadTree<'t> =
     | None
@@ -11,10 +12,13 @@ type SparseMatrix<'t> =
     val notEmptyCells: list<int * int * 't>
     new (x, y, lst) = {numOfRows = x; numOfCols = y; notEmptyCells = lst}
     
-let inline sum (x: QuadTree<'t>) (y: QuadTree<'t>) =
-    let rec _go (x: QuadTree<'t>) (y: QuadTree<'t>) =
+let sum x y structure =
+    let operation, neutral = getOperationAndNeutral structure false
+    let rec _go x y =
         match x, y with
-        | Leaf a, Leaf b -> Leaf (a + b)
+        | Leaf a, Leaf b ->
+            let res = operation a b
+            if res = neutral then None else Leaf res
         | None, k -> k
         | k, None -> k
         | Node (x1, x2, x3, x4), Node (y1, y2, y3, y4) ->
@@ -22,43 +26,45 @@ let inline sum (x: QuadTree<'t>) (y: QuadTree<'t>) =
             let NE = _go x2 y2
             let SW = _go x3 y3
             let SE = _go x4 y4
-            if NW = None && NE = None && SW = None && SE = None
-            then None
+            if NW = None && NE = None && SW = None && SE = None then None
             else Node (NW, NE, SW, SE)
         | _, _ -> failwith "It's impossible to sum this"
     _go x y
     
-let inline multiply (x: QuadTree<'t>) (y: QuadTree<'t>) =
-    let rec _go (x: QuadTree<'t>) (y: QuadTree<'t>) =
+let multiply x y structure =
+    let operation, neutral = getOperationAndNeutral structure true
+    let rec _go x y =
         match x, y with
-        | Leaf a, Leaf b -> Leaf (a * b)
+        | Leaf a, Leaf b ->
+            let res = operation a b
+            if res = neutral then None else Leaf res
         | None, _ -> None
         | _, None -> None
         | Node (x1, x2, x3, x4), Node (y1, y2, y3, y4) ->
-            let NW = sum (_go x1 y1) (_go x2 y3)
-            let NE = sum (_go x1 y2) (_go x2 y4)
-            let SW = sum (_go x3 y1) (_go x4 y3)
-            let SE = sum (_go x3 y2) (_go x4 y4)
-            if NW = None && NE = None && SW = None && SE = None
-            then None
+            let NW = sum (_go x1 y1) (_go x2 y3) structure
+            let NE = sum (_go x1 y2) (_go x2 y4) structure
+            let SW = sum (_go x3 y1) (_go x4 y3) structure
+            let SE = sum (_go x3 y2) (_go x4 y4) structure
+            if NW = None && NE = None && SW = None && SE = None then None
             else Node (NW, NE, SW, SE)
         | _, _ -> failwith "It's impossible to multiply this"
     _go x y
     
-let inline scalarMultiply (x: QuadTree<'t>) (scalar: 't) =
-    let rec _go (x: QuadTree<'t>) =
+let scalarMultiply x scalar structure =
+    let operation, neutral = getOperationAndNeutral structure true
+    let rec _go x =
         match x with
-        | Leaf t -> Leaf (t * scalar)
+        | Leaf t -> Leaf (operation scalar t)
         | None -> None
         | Node (NW, NE, SW, SE) -> Node (_go NW, _go NE, _go SW, _go SE)
-    _go x
+    if scalar = neutral then x else _go x
     
-let inline tensorMultiply (x: QuadTree<'t>) (y: QuadTree<'t>) =
+let tensorMultiply x y structure =
     if x = None || y = None then None
     else
-        let rec _go (x: QuadTree<'t>) =
+        let rec _go x =
             match x with
-            | Leaf t -> scalarMultiply y t
+            | Leaf t -> scalarMultiply y t structure
             | None -> None
             | Node (NW, NE, SW, SE) -> Node (_go NW, _go NE, _go SW, _go SE)
         _go x
@@ -101,7 +107,7 @@ let toMatrix quadTree size =
                 then
                     output.[k] <- i, j, matrix.[i,j]
                     k <- k + 1
-        SparseMatrix(unrealIndex - 1, unrealIndex - 1, List.ofArray output)        
+        SparseMatrix (unrealIndex - 1, unrealIndex - 1, List.ofArray output)        
     toSparse output
     
 let first (x, _, _) = x
