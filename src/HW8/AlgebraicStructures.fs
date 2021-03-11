@@ -19,6 +19,6 @@ let getOperationAndNeutral structure isMultiply =
          match structure with
          | Monoid x -> x.sum, x.neutral
          | Semiring x ->
-             if isMultiply = false then x.monoid.sum, x.monoid.neutral
-             else x.multiply, x.monoid.neutral
+             if isMultiply then x.multiply, x.monoid.neutral
+             else x.monoid.sum, x.monoid.neutral
     operation, neutral
