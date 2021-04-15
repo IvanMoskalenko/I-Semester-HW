@@ -17,14 +17,14 @@ let generator rows cols amt sparsity path bType =
         for j = 0 to rows - 1 do
             for k = 0 to cols - 1 do
                 let x = Random()
-                let y = (x.Next (100) |> float) / 100.0
+                let y = (x.Next(100) |> float) / 100.0
                 if bType = "int" then
                     if y > sparsity   
-                    then output.[j, k] <- string (x.Next (100))
+                    then output.[j, k] <- string (x.Next())
                     else output.[j, k] <- "0"
                 elif bType = "float" then
                     if y > sparsity   
-                    then output.[j, k] <- string ((x.Next (1000) |> float) / 10.0) 
+                    then output.[j, k] <- string ((x.Next() |> float) / 10.0) 
                     else output.[j, k] <- "0"
                 elif bType = "bool" then
                     if y > sparsity  
