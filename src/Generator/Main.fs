@@ -7,11 +7,12 @@ type CliArguments =
     interface IArgParserTemplate with
         member s.Usage =
             match s with
-            | Generator _ -> "specify a working directory."
+            | Generator _ ->
+                "Please, specify number of rows and cols, amount of matrices, sparsity, path and type of data"
 
 [<EntryPoint>]
     let main (argv: string array) =
-        let parser = ArgumentParser.Create<CliArguments>(programName = "Generator")
+        let parser = ArgumentParser.Create<CliArguments> (programName = "Generator")
         try
         let results = parser.Parse argv
         if results.Contains Generator then
