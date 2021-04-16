@@ -6,12 +6,22 @@ open QTSM
 open hw3
 open AlgebraicStructures
 
+let rand = Random()
+
+let genRandomTree h =
+    let rec go h =
+        if h = 1
+        then Leaf (rand.Next())
+        else Node (go (h - 1), go (h - 1), go (h - 1), go (h - 1))
+    go h
+    
 let generateSparseMatrix rows cols =
-    let x = Array2D.init rows cols (fun _ _ -> Random().Next(0, 2))
+    let x = Array2D.init rows cols (fun _ _ -> rand.Next(0, 2))
     SparseMatrix (rows, cols,
                             [for i in 0..rows - 1 do
                                  for j in 0..cols - 1 do
-                                     if x.[i, j] = 1 then (i, j, Random().Next(1, 100))])    
+                                     if x.[i, j] = 1 then (i, j, rand.Next(1, 100))])
+    
 let genArrayBySparseMatrix (matrix: SparseMatrix<int>) =
     let output = Array2D.zeroCreate matrix.numOfRows matrix.numOfCols
     for x in matrix.notEmptyCells do
@@ -33,6 +43,7 @@ let standartMultiplyByScalar scalar (x: int[,]) =
         for j in 0 .. Array2D.length2 x - 1 do
             y.[i, j] <- scalar * y.[i, j]
     y
+    
 let standartTensorMultiply (x: int[,]) (y: int[,]) =
     let mutable a, b = 0, 0
     let output = Array2D.create (Array2D.length1 x * Array2D.length2 y) (Array2D.length1 x * Array2D.length2 y) 1
@@ -52,38 +63,45 @@ let arrayToSparseMatrix (x: int[,]) =
             z <- z + 1
     SparseMatrix(Array2D.length1 x, Array2D.length2 x, y |> Array.filter (fun x -> (x |> third) <> 0) |> Array.toList)
     
-let semiring = new Semiring<int>(new Monoid<int>((+), 0), (*))
+let semiring = new Semiring<int> (new Monoid<int>((+), 0), (*))
 let structure = Semiring semiring
 
 [<Tests>]
 let tests =
     testList "Tests for QuadTree" [    
         testProperty "Sum" <| fun _ ->
-                    let dim = Random().Next(0, 32)
-                    let sm1 = generateSparseMatrix dim dim
-                    let sm2 = generateSparseMatrix dim dim
-                    let m1 = genArrayBySparseMatrix sm1
-                    let m2 = genArrayBySparseMatrix sm2
-                    let sum1 = standartSum m1 m2 |> arrayToSparseMatrix |> toTree
-                    let sum2 = sum (sm1 |> toTree) (sm2 |> toTree) structure
-                    Expect.equal sum1 sum2 ""
+            let dim = rand.Next(0, 32)
+            let sm1 = generateSparseMatrix dim dim
+            let sm2 = generateSparseMatrix dim dim
+            let m1 = genArrayBySparseMatrix sm1
+            let m2 = genArrayBySparseMatrix sm2
+            let sum1 = standartSum m1 m2 |> arrayToSparseMatrix |> toTree
+            let sum2 = sum (sm1 |> toTree) (sm2 |> toTree) structure
+            Expect.equal sum1 sum2 ""
                     
-        testProperty "Mul" <| fun _ ->
-                    let dim = Random().Next(0, 32)
-                    let sm1 = generateSparseMatrix dim dim
-                    let sm2 = generateSparseMatrix dim dim
-                    let m1 = genArrayBySparseMatrix sm1
-                    let m2 = genArrayBySparseMatrix sm2
-                    let mul1 = matrixMultiply m1 m2 |> arrayToSparseMatrix |> toTree
-                    let mul2 = multiply (sm1 |> toTree) (sm2 |> toTree) structure
-                    Expect.equal mul1 mul2 ""
+        testProperty "Multiply" <| fun _ ->
+            let dim = rand.Next(0, 32)
+            let sm1 = generateSparseMatrix dim dim
+            let sm2 = generateSparseMatrix dim dim
+            let m1 = genArrayBySparseMatrix sm1
+            let m2 = genArrayBySparseMatrix sm2
+            let mul1 = matrixMultiply m1 m2 |> arrayToSparseMatrix |> toTree
+            let mul2 = multiply (sm1 |> toTree) (sm2 |> toTree) structure
+            Expect.equal mul1 mul2 ""
+        
+        testProperty "Parallel multiply" <| fun _ ->
+            let x = genRandomTree 7
+            let y = genRandomTree 7
+            let res1 = multiply x y structure
+            let res2 = parallelMultiply x y structure 3
+            Expect.equal res1 res2 ""
                     
-        testProperty "Tensor mul" <| fun _ ->
-                    let dim = Random().Next(0, 32) |> toPowerOf2
-                    let sm1 = generateSparseMatrix dim dim
-                    let sm2 = generateSparseMatrix dim dim
-                    let m1 = genArrayBySparseMatrix sm1
-                    let m2 = genArrayBySparseMatrix sm2
-                    let tmul1 = standartTensorMultiply m1 m2 |> arrayToSparseMatrix |> toTree
-                    let tmul2 = tensorMultiply (sm1 |> toTree) (sm2 |> toTree) structure
-                    Expect.equal tmul1 tmul2 ""]
+        testProperty "Tensor multiply" <| fun _ ->
+            let dim = rand.Next(0, 32) |> toPowerOf2
+            let sm1 = generateSparseMatrix dim dim
+            let sm2 = generateSparseMatrix dim dim
+            let m1 = genArrayBySparseMatrix sm1
+            let m2 = genArrayBySparseMatrix sm2
+            let tmul1 = standartTensorMultiply m1 m2 |> arrayToSparseMatrix |> toTree
+            let tmul2 = tensorMultiply (sm1 |> toTree) (sm2 |> toTree) structure
+            Expect.equal tmul1 tmul2 ""]
