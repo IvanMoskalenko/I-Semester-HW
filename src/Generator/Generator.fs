@@ -1,6 +1,22 @@
 module Generator
 open System
 
+type generatorType =
+    | Int
+    | Float
+    | Bool
+    | AnotherType
+
+[<Struct>]
+type generatorOptions =
+    val rows: int
+    val cols: int
+    val amt: int
+    val sparsity: float
+    val path: string
+    val bType: generatorType
+    new (a, b, c, d, e, f) = { rows = a; cols = b; amt = c; sparsity = d; path = e; bType = f}
+    
 let printMatrix (x: string [,]) path =
     let y = x.[*, 1]
     let z = x.[1, *]
@@ -9,33 +25,27 @@ let printMatrix (x: string [,]) path =
         for j = 0 to z.Length - 1 do
             text <- text + x.[i, j] + " "
         text <- text + "\n"
-    System.IO.File.AppendAllText (path, text)
+    System.IO.File.WriteAllText (path, text)
                 
-let generator rows cols amt sparsity path bType =  
-    for i = 0 to amt - 1 do
-        let output = Array2D.zeroCreate rows cols
-        for j = 0 to rows - 1 do
-            for k = 0 to cols - 1 do
-                let x = Random()
-                let y = (x.Next(100) |> float) / 100.0
-                if bType = "int" then
-                    if y > sparsity   
-                    then output.[j, k] <- string (x.Next())
+let generator (x: generatorOptions) =  
+    for i = 0 to x.amt - 1 do
+        let output = Array2D.zeroCreate x.rows x.cols
+        for j = 0 to x.rows - 1 do
+            for k = 0 to x.cols - 1 do
+                let rand = Random()
+                let y = rand.NextDouble()
+                match x.bType with
+                | Int ->
+                    if y > x.sparsity   
+                    then output.[j, k] <- string (rand.Next())
                     else output.[j, k] <- "0"
-                elif bType = "float" then
-                    if y > sparsity   
-                    then output.[j, k] <- string ((x.Next() |> float) / 10.0) 
+                | Float ->
+                    if y > x.sparsity   
+                    then output.[j, k] <- string (rand.NextDouble() * float Int32.MaxValue) 
                     else output.[j, k] <- "0"
-                elif bType = "bool" then
-                    if y > sparsity  
+                | Bool ->
+                    if y > x.sparsity  
                     then output.[j, k] <- "1" 
                     else output.[j, k] <- "0"
-                else failwith "Your type is unsupported"
-        printMatrix output (path + "/Matrix" + string i + ".txt")
-        
-let first (x, _, _, _, _, _) = x
-let second (_, x, _, _, _, _) = x
-let third (_, _, x, _, _, _) = x
-let fourth (_, _, _, x, _, _) = x
-let fifth (_, _, _, _, x, _) = x
-let sixth (_, _, _, _, _, x) = x
+                | AnotherType -> failwith "Your type is unsupported"
+        printMatrix output (x.path + "/Matrix" + string i + ".txt")

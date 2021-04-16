@@ -1,37 +1,16 @@
 ﻿module Main
-open Generator
-open Argu
-
-type CliArguments =
-    | Generator of rows: int * cols: int * amount: int * sparsity: float * path: string * bType: string
-    interface IArgParserTemplate with
-        member s.Usage =
-            match s with
-            | Generator _ ->
-                "Please, specify number of rows and cols, amount of matrices, sparsity, path and type of data"
+open Generator    
 
 [<EntryPoint>]
     let main (argv: string array) =
-        let parser = ArgumentParser.Create<CliArguments> (programName = "Generator")
-        try
-        let results = parser.Parse argv
-        if results.Contains Generator then
-            let x = results.GetResult Generator
-            let rows = x |> first
-            let cols = x |> second
-            let amount = x |> third
-            let sparsity = x |> fourth
-            let path = x |> fifth
-            let bType = x |> sixth
-            generator rows cols amount sparsity path bType   
-        else
-            parser.PrintUsage() |> printfn "%s"
+        let bType =
+            match argv.[5] with
+                | "int" -> Int
+                | "float" -> Float
+                | "bool" -> Bool
+                | _ -> AnotherType
+        let x = generatorOptions
+                    (argv.[0] |> int, argv.[1] |> int, argv.[2] |> int, argv.[3] |> float, argv.[4], bType)            
+        generator x
         0    
-        with
-        | :? ArguParseException as ex ->
-            printfn "%s" ex.Message
-            1
-        | ex ->
-            printfn "Internal Error:"
-            printfn "%s" ex.Message
-            2     
+  
